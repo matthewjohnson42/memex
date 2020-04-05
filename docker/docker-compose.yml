@@ -1,0 +1,6 @@
+version: "3.1"
+services:
+  personal-memex-ui:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
