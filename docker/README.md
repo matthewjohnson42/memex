@@ -1,4 +1,4 @@
-# Docker for personal-memex-ui
+# Docker container for personal-memex-ui
 
 A method for creating a Docker container with the Angular app running inside it.
 
@@ -17,7 +17,7 @@ To start the container, run the following commands from the command line or term
 ```
 git clone https://github.com/matthewjohnson42/personal-memex-ui.git
 cd personal-memex-ui/docker
-docker-compose up
+docker-compose up --build
 ```
 
 Open your web browser and type in ```localhost:4200```.

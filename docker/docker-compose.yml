@@ -1,6 +1,10 @@
 version: "3.1"
 services:
   personal-memex-ui:
+    image: personal-memex-ui-ng
+    container_name: personal-memex-ui-ng-1
+    ports:
+      - "8080:80"
     build:
       context: ..
       dockerfile: docker/Dockerfile
