@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'app-main-header',
@@ -8,16 +7,10 @@ import {FormControl} from "@angular/forms";
 })
 export class MainHeaderComponent implements OnInit {
 
-    header = new FormControl();
-
     constructor() {
     }
 
     ngOnInit(): void {
-    }
-
-    doNothing(): void {
-        console.log('here');
     }
 
 }
