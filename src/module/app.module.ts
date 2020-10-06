@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from '../app/app.component';
@@ -10,9 +10,10 @@ import {EntryScreenComponent} from '../app/entry-screen/entry-screen.component';
 import {SearchScreenComponent} from '../app/search/search-screen/search-screen.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {SearchResultScreenComponent} from '../app/search/search-result-screen/search-result-screen.component';
-import {AuthService} from '../service/auth-service';
-import {RawTextService} from '../service/raw-text-service';
-import {HttpClientModule} from '@angular/common/http';
+import {AuthService} from '../service/auth.service';
+import {RawTextService} from '../service/raw-text.service';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {ConfigService} from '../service/config.service';
 
 @NgModule({
     declarations: [
@@ -31,7 +32,17 @@ import {HttpClientModule} from '@angular/common/http';
         ReactiveFormsModule
     ],
     exports: [],
-    providers: [AuthService, RawTextService],
+    providers: [
+        AuthService,
+        ConfigService,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: (configService: ConfigService) => () => configService.load(),
+            deps: [ConfigService, HttpClient],
+            multi: true
+        },
+        RawTextService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {

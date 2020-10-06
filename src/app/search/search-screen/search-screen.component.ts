@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RawTextService} from '../../../service/raw-text-service';
+import {RawTextService} from '../../../service/raw-text.service';
 import {RawText} from '../../../data/raw-text';
 
 @Component({
@@ -9,18 +9,18 @@ import {RawText} from '../../../data/raw-text';
 })
 export class SearchScreenComponent implements OnInit {
 
-    entryService: RawTextService;
+    rawTextService: RawTextService;
     entries: RawText;
 
-    constructor(entryService: RawTextService) {
-        this.entryService = entryService;
+    constructor(rawTextService: RawTextService) {
+        this.rawTextService = rawTextService;
     }
 
     ngOnInit(): void {
     }
 
     search(): void {
-        const entryPage = this.entryService.getPage(10, 0);
+        const entryPage = this.rawTextService.getPage(10, 0);
         console.log(entryPage);
     }
 

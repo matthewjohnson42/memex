@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RawTextService} from '../../service/raw-text-service';
+import {RawTextService} from '../../service/raw-text.service';
 
 @Component({
     selector: 'app-entry-screen',
@@ -8,10 +8,10 @@ import {RawTextService} from '../../service/raw-text-service';
 })
 export class EntryScreenComponent implements OnInit {
 
-    entryService: RawTextService; // call should be based on rxjs interval
+    rawTextService: RawTextService; // call should be based on rxjs interval
 
-    constructor(entryService: RawTextService) {
-        this.entryService = entryService;
+    constructor(rawTextService: RawTextService) {
+        this.rawTextService = rawTextService;
     }
 
     ngOnInit(): void {

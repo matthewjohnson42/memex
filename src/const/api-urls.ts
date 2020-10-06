@@ -1,3 +1,3 @@
-export class ApiUrls {
-    rawTextUrl = '/api/v0/rawText';
+export abstract class ApiUrls {
+    static readonly rawTextUrl = '/api/v0/rawText';
 }

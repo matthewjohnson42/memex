@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Pageable} from '../data/pageable';
 import {RawText} from '../data/raw-text';
-import {ApiService} from './api-service';
+import {ApiService} from './api.service';
 import {PageRequest} from '../data/page-request';
 
 @Injectable({
