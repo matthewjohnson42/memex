@@ -20,8 +20,10 @@ export class SearchScreenComponent implements OnInit {
     }
 
     search(): void {
-        const entryPage = this.rawTextService.getPage(10, 0);
-        console.log(entryPage);
+        this.rawTextService.getPage(10, 0).subscribe(
+            next => {
+            console.log(next);
+        });
     }
 
 }

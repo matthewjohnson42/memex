@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {enableProdMode, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AppConfig} from '../config/app-config';
 
@@ -12,11 +12,15 @@ export class ConfigService {
     }
 
     load(): void {
-        this.httpClient.get<AppConfig>('assets/config.json').subscribe(
-            next => {
-                this.config = next;
-            }
-        );
+        this.httpClient.get<AppConfig>('assets/config.json')
+            .subscribe(
+                next => {
+                    this.config = next;
+                    if (this.config.production === true) {
+                        enableProdMode();
+                    }
+                }
+            );
     }
 
     getConfig(): AppConfig {
