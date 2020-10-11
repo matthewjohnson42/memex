@@ -1,6 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RawTextService} from '../../../service/raw-text.service';
-import {RawText} from '../../../data/raw-text';
 
 @Component({
     selector: 'app-retrieval-screen',

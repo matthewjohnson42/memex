@@ -3,7 +3,7 @@ import {Pageable} from '../data/pageable';
 import {RawText} from '../data/raw-text';
 import {ApiService} from './api.service';
 import {HttpHelperService} from './http-helper.service';
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs';
 
 @Injectable({
     providedIn: 'root'

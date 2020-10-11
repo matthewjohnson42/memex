@@ -4,7 +4,7 @@ import {ApiUrls} from '../const/api-urls';
 import {Pageable} from '../data/pageable';
 import {RawText} from '../data/raw-text';
 import {ConfigService} from './config.service';
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
