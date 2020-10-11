@@ -1,0 +1,30 @@
+.search-content-pane {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.date-picker-cluster {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.search-box {
+    width: 80%;
+    text-align: center;
+}
+
+.search-button {
+    width: 33%;
+}
+
+.tall {
+    height: 20%;
+}
+
+.spacer-div {
+    height: 10%;
+}

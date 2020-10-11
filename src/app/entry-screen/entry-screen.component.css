@@ -1,1 +1,9 @@
-
+.entry-text-area {
+    width: 98%;
+    height: 96%;
+    border-style: none;
+    padding: 1%;
+    resize: none;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: #e6e6e6;
+}

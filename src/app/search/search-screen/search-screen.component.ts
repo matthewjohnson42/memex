@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {RawTextService} from '../../../service/raw-text.service';
 import {RawText} from '../../../data/raw-text';
 
@@ -10,7 +10,6 @@ import {RawText} from '../../../data/raw-text';
 export class SearchScreenComponent implements OnInit {
 
     rawTextService: RawTextService;
-    entries: RawText;
 
     constructor(rawTextService: RawTextService) {
         this.rawTextService = rawTextService;
@@ -22,8 +21,8 @@ export class SearchScreenComponent implements OnInit {
     search(): void {
         this.rawTextService.getPage(10, 0).subscribe(
             next => {
-            console.log(next);
-        });
+                console.log(next);
+            });
     }
 
 }

@@ -1,24 +1,29 @@
-<div>
-    <mat-form-field appearance="fill">
-        <mat-label>Start date</mat-label>
-        <input matInput [matDatepicker]="startDate">
-        <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
-        <mat-datepicker #startDate></mat-datepicker>
-    </mat-form-field>
-    <br>
-    <mat-form-field appearance="fill">
-        <mat-label>End date</mat-label>
-        <input matInput [matDatepicker]="endDate">
-        <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
-        <mat-datepicker #endDate></mat-datepicker>
-    </mat-form-field>
+<div class="search-content-pane">
+    <div class="spacer-div"></div>
+    <div class="horizontal-center">
+        <div class="date-picker-cluster">
+            <mat-form-field class="full-width">
+                <mat-label>Start date</mat-label>
+                <input matInput [matDatepicker]="startDate">
+                <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                <mat-datepicker #startDate></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label>End date</mat-label>
+                <input matInput [matDatepicker]="endDate">
+                <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+                <mat-datepicker #endDate></mat-datepicker>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="spacer-div"></div>
+    <div class="horizontal-center">
+        <mat-form-field class="search-box">
+            <mat-label>Search content</mat-label>
+            <input matInput>
+        </mat-form-field>
+    </div>
+    <div class="horizontal-center tall">
+        <button mat-button color="primary" (click)="search()" class="search-button">Search</button>
+    </div>
 </div>
-<div>
-    <mat-form-field class="example-full-width">
-        <mat-label>Search content</mat-label>
-        <input matInput>
-    </mat-form-field>
-    <br>
-    <button mat-button color="primary" (click)="search()">Search</button>
-</div>
-
