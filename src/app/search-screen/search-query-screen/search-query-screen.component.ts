@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {RawTextService} from '../../../service/raw-text.service';
+import {RawTextService} from '../../../service/data/raw-text.service';
 
 @Component({
     selector: 'app-retrieval-screen',
-    templateUrl: './search-screen.component.html',
-    styleUrls: ['./search-screen.component.css']
+    templateUrl: './search-query-screen.component.html',
+    styleUrls: ['./search-query-screen.component.css']
 })
-export class SearchScreenComponent implements OnInit {
+export class SearchQueryScreenComponent implements OnInit {
 
     rawTextService: RawTextService;
 

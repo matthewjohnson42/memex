@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SearchScreenComponent } from './search-screen.component';
+import { SearchQueryScreenComponent } from './search-query-screen.component';
 
 describe('RetrievalScreenComponent', () => {
-  let component: SearchScreenComponent;
-  let fixture: ComponentFixture<SearchScreenComponent>;
+  let component: SearchQueryScreenComponent;
+  let fixture: ComponentFixture<SearchQueryScreenComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SearchScreenComponent ]
+      declarations: [ SearchQueryScreenComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SearchScreenComponent);
+    fixture = TestBed.createComponent(SearchQueryScreenComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -4,26 +4,19 @@ import {AppConfig} from '../config/app-config';
 
 @Injectable()
 export class ConfigService {
+    static config: AppConfig;
     httpClient: HttpClient;
-    config: AppConfig;
 
     constructor(httpClient: HttpClient) {
         this.httpClient = httpClient;
     }
 
-    load(): void {
-        this.httpClient.get<AppConfig>('assets/config.json')
-            .subscribe(
-                next => {
-                    this.config = next;
-                    if (this.config.production === true) {
-                        enableProdMode();
-                    }
-                }
-            );
-    }
-
-    getConfig(): AppConfig {
-        return this.config;
+    load(): Promise<void> {
+        return this.httpClient.get<AppConfig>('assets/config.json').toPromise().then( value => {
+            ConfigService.config = value;
+            if (ConfigService.config.production === true) {
+                enableProdMode();
+            }
+        });
     }
 }

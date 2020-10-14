@@ -1,8 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 
+/**
+ * Service for creation of common HTTP objects
+ */
 @Injectable()
-export class HttpHelperService {
+export class HttpCommonService {
     getPageParams(pageSize: number, pageNumber: number): HttpParams {
         return new HttpParams()
             .set('pageSize', pageSize.toString())
