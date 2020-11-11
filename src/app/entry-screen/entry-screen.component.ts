@@ -11,6 +11,7 @@ import {PersistenceService} from '../../service/data/persistence.service';
 export class EntryScreenComponent implements OnInit, OnDestroy {
 
     textAreaValue: string;
+    previousTextAreaValue: string;
     id: string;
     persistenceService: PersistenceService;
     rawTextService: RawTextService;
@@ -23,13 +24,16 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.timeInterval = interval(5000).subscribe(timeInterval => {
-            if (this.id && this.textAreaValue) {
-                this.rawTextService.put(this.id, this.textAreaValue).subscribe();
-            } else if (this.textAreaValue) {
-                this.rawTextService.post(this.textAreaValue).subscribe(response => {
-                    this.id = this.persistenceService.getSubmittedRawText().id;
-                });
+            if (this.textAreaValue !== this.previousTextAreaValue) {
+                if (this.id) {
+                    this.rawTextService.put(this.id, this.textAreaValue).subscribe();
+                } else {
+                    this.rawTextService.post(this.textAreaValue).subscribe(response => {
+                        this.id = this.persistenceService.getSubmittedRawText().id;
+                    });
+                }
             }
+            this.previousTextAreaValue = this.textAreaValue;
         });
     }
 
