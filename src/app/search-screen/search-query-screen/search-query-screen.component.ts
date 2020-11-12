@@ -11,6 +11,9 @@ export class SearchQueryScreenComponent implements OnInit {
 
     rawTextService: RawTextService;
     router: Router;
+    startDate: Date;
+    endDate: Date;
+    searchString: string;
 
     constructor(rawTextService: RawTextService, router: Router) {
         this.rawTextService = rawTextService;
@@ -20,8 +23,16 @@ export class SearchQueryScreenComponent implements OnInit {
     ngOnInit(): void {
     }
 
+    setStartDate(startDate): void {
+        this.startDate = startDate.value;
+    }
+
+    setEndDate(endDate): void {
+        this.endDate = endDate.value;
+    }
+
     search(): void {
-        this.rawTextService.getPage(10, 0).subscribe(next => {
+        this.rawTextService.search(this.searchString, this.startDate, this.endDate).subscribe(next => {
             this.router.navigate(['entrySearchResult'], {}).then();
         });
     }

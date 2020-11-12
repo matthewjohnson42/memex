@@ -21,7 +21,8 @@ export class SearchResultScreenComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.searchResults = this.persistenceService.getRequestedRawTextPage();
+        this.searchResults = this.persistenceService.getRawTextSearchResponse();
+        console.log(this.searchResults);
     }
 
 }

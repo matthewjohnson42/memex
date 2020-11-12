@@ -29,7 +29,7 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
                     this.rawTextService.put(this.id, this.textAreaValue).subscribe();
                 } else {
                     this.rawTextService.post(this.textAreaValue).subscribe(response => {
-                        this.id = this.persistenceService.getSubmittedRawText().id;
+                        this.id = this.persistenceService.getRawTextRequest().id;
                     });
                 }
             }
