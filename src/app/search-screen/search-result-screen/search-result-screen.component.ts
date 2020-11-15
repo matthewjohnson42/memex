@@ -17,10 +17,10 @@ export class SearchResultScreenComponent implements OnInit, AfterViewInit {
     persistenceService: PersistenceService;
     router: Router;
 
-    displayedColumns: Array<string> = ['gloss', 'createDate', 'updateDate'];
     dataSource: MatTableDataSource<RawText> = new MatTableDataSource<RawText>();
-    @ViewChild(MatPaginator) paginator: MatPaginator;
+    displayedColumns: Array<string> = ['gloss', 'createDate', 'updateDate'];
     page: Pageable<RawText>;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
 
     constructor(persistenceService: PersistenceService, router: Router) {
         this.persistenceService = persistenceService;

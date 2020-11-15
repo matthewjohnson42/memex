@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter} from '@angular/core';
 import {UiRoutes} from '../../const/ui-routes';
 
 @Component({
@@ -8,12 +8,20 @@ import {UiRoutes} from '../../const/ui-routes';
 })
 export class MainHeaderComponent {
 
+    displayIsEntryScreen: boolean;
     entryRoute: string;
     entrySearchRoute: string;
+    newEntryEvent: EventEmitter<any>;
 
     constructor() {
+        this.displayIsEntryScreen = false;
         this.entryRoute = UiRoutes.entry;
         this.entrySearchRoute = UiRoutes.entrySearch;
+        this.newEntryEvent = new EventEmitter();
+    }
+
+    private newEntry(): void {
+        this.newEntryEvent.emit(null);
     }
 
 }

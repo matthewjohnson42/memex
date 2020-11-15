@@ -1,6 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {APP_INITIALIZER, NgModule} from '@angular/core';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from '../app/app.component';
 import {MainHeaderComponent} from '../app/main-header/main-header.component';

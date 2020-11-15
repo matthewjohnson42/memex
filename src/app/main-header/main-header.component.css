@@ -1,3 +1,26 @@
-.header-button {
+.entry-button-with-add {
+    padding: 0px;
+    width: 40%;
+    text-align: left;
+}
+.entry-button-with-add-inner-span {
+    padding: 0px;
+    padding-left: 55%;
+}
+.add-entry-button {
+    padding: 0px;
+    width: 10%;
+    border-radius: 0px;
+    height: 100%;
+}
+.entry-button {
+    padding: 0px;
     width: 50%;
+}
+.search-button {
+    padding: 0px;
+    width: 50%;
+    border-left-width: 2px;
+    border-left-style: solid;
+    border-radius: 0px;
 }

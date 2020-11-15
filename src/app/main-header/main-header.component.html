@@ -1,4 +1,14 @@
 <div class="full-width header-pane">
-    <button mat-button [routerLink]="entryRoute" color="primary" class="full-height header-button">Entry</button>
-    <button mat-button [routerLink]="entrySearchRoute" color="primary" class="full-height header-button">Retrieval</button>
+    <button mat-button *ngIf="displayIsEntryScreen" [routerLink]="entryRoute" color="primary" class="full-height entry-button-with-add">
+        <span class="entry-button-with-add-inner-span">Entry</span>
+    </button>
+    <button mat-icon-button *ngIf="displayIsEntryScreen" (click)="newEntry()" color="primary" class="full-height add-entry-button">
+        <mat-icon>add</mat-icon>
+    </button>
+    <button mat-button *ngIf="!displayIsEntryScreen" [routerLink]="entryRoute" color="primary" class="full-height entry-button">
+        <span>Entry</span>
+    </button>
+    <button mat-button [routerLink]="entrySearchRoute" color="primary" class="full-height search-button">
+        Retrieval
+    </button>
 </div>

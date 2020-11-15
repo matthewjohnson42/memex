@@ -10,11 +10,12 @@ import {PersistenceService} from '../../service/data/persistence.service';
 })
 export class EntryScreenComponent implements OnInit, OnDestroy {
 
-    textAreaValue: string;
-    previousTextAreaValue: string;
-    id: string;
     persistenceService: PersistenceService;
     rawTextService: RawTextService;
+
+    id: string;
+    previousTextAreaValue: string;
+    textAreaValue: string;
     timeInterval: Subscription;
 
     constructor(persistenceService: PersistenceService, rawTextService: RawTextService) {
@@ -24,21 +25,34 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.timeInterval = interval(5000).subscribe(timeInterval => {
-            if (this.textAreaValue !== this.previousTextAreaValue) {
-                if (this.id) {
-                    this.rawTextService.put(this.id, this.textAreaValue).subscribe();
-                } else {
-                    this.rawTextService.post(this.textAreaValue).subscribe(response => {
-                        this.id = this.persistenceService.getRawTextRequest().id;
-                    });
-                }
-            }
+            this.persistEntry();
             this.previousTextAreaValue = this.textAreaValue;
         });
     }
 
     ngOnDestroy() {
+        this.persistEntry();
         this.timeInterval.unsubscribe();
+    }
+
+    public reInitComponent(): void {
+        this.persistEntry();
+        this.persistenceService.setRawTextRequest(undefined);
+        this.id = '';
+        this.previousTextAreaValue = '';
+        this.textAreaValue = '';
+    }
+
+    private persistEntry(): void {
+        if (this.textAreaValue !== this.previousTextAreaValue) {
+            if (this.id) {
+                this.rawTextService.put(this.id, this.textAreaValue).subscribe();
+            } else {
+                this.rawTextService.post(this.textAreaValue).subscribe(response => {
+                    this.id = this.persistenceService.getRawTextRequest().id;
+                });
+            }
+        }
     }
 
 }

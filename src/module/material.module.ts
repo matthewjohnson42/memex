@@ -7,7 +7,8 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
     declarations: [],
@@ -16,6 +17,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
         MatButtonToggleModule,
         MatDatepickerModule,
         MatFormFieldModule,
+        MatIconModule,
         MatInputModule,
         MatNativeDateModule,
         MatPaginatorModule,
@@ -27,6 +29,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
         MatButtonToggleModule,
         MatDatepickerModule,
         MatFormFieldModule,
+        MatIconModule,
         MatInputModule,
         MatNativeDateModule,
         MatPaginatorModule,

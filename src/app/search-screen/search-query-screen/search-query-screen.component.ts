@@ -8,20 +8,24 @@ import {UiRoutes} from '../../../const/ui-routes';
     templateUrl: './search-query-screen.component.html',
     styleUrls: ['./search-query-screen.component.css']
 })
-export class SearchQueryScreenComponent implements OnInit {
+export class SearchQueryScreenComponent {
 
     rawTextService: RawTextService;
     router: Router;
-    startDate: Date;
+
     endDate: Date;
     searchString: string;
+    startDate: Date;
 
     constructor(rawTextService: RawTextService, router: Router) {
         this.rawTextService = rawTextService;
         this.router = router;
     }
 
-    ngOnInit(): void {
+    search(): void {
+        this.rawTextService.search(this.searchString, this.startDate, this.endDate).subscribe(next => {
+            this.router.navigateByUrl(UiRoutes.entrySearchResult).then();
+        });
     }
 
     setStartDate(startDate): void {
@@ -30,12 +34,6 @@ export class SearchQueryScreenComponent implements OnInit {
 
     setEndDate(endDate): void {
         this.endDate = endDate.value;
-    }
-
-    search(): void {
-        this.rawTextService.search(this.searchString, this.startDate, this.endDate).subscribe(next => {
-            this.router.navigateByUrl(UiRoutes.entrySearchResult).then();
-        });
     }
 
 }
