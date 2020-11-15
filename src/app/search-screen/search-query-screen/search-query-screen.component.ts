@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RawTextService} from '../../../service/data/raw-text.service';
 import {Router} from '@angular/router';
+import {UiRoutes} from '../../../const/ui-routes';
 
 @Component({
     selector: 'app-retrieval-screen',
@@ -33,7 +34,7 @@ export class SearchQueryScreenComponent implements OnInit {
 
     search(): void {
         this.rawTextService.search(this.searchString, this.startDate, this.endDate).subscribe(next => {
-            this.router.navigate(['entrySearchResult'], {}).then();
+            this.router.navigateByUrl(UiRoutes.entrySearchResult).then();
         });
     }
 

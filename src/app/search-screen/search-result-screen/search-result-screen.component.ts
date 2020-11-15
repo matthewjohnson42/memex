@@ -4,6 +4,8 @@ import {RawText} from '../../../data/raw-text';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {Pageable} from '../../../data/pageable';
+import {Router} from '@angular/router';
+import {UiRoutes} from '../../../const/ui-routes';
 
 @Component({
     selector: 'app-search-result-screen',
@@ -13,20 +15,26 @@ import {Pageable} from '../../../data/pageable';
 export class SearchResultScreenComponent implements OnInit, AfterViewInit {
 
     persistenceService: PersistenceService;
+    router: Router;
 
     displayedColumns: Array<string> = ['gloss', 'createDate', 'updateDate'];
     dataSource: MatTableDataSource<RawText> = new MatTableDataSource<RawText>();
     @ViewChild(MatPaginator) paginator: MatPaginator;
     page: Pageable<RawText>;
 
-    constructor(persistenceService: PersistenceService) {
+    constructor(persistenceService: PersistenceService, router: Router) {
         this.persistenceService = persistenceService;
+        this.router = router;
     }
 
     ngOnInit(): void {
         this.page = this.persistenceService.getRawTextSearchResponse();
-        this.dataSource.data = this.page.content;
-        this.dataSource.paginator = this.paginator;
+        if ( this.page ) {
+            this.dataSource.data = this.page.content;
+            this.dataSource.paginator = this.paginator;
+        } else {
+            this.router.navigateByUrl(UiRoutes.entrySearch).then();
+        }
     }
 
     ngAfterViewInit(): void {

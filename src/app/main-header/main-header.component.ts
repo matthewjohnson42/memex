@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {UiRoutes} from '../../const/ui-routes';
 
 @Component({
     selector: 'app-main-header',
@@ -6,4 +7,13 @@ import {Component} from '@angular/core';
     styleUrls: ['./main-header.component.css']
 })
 export class MainHeaderComponent {
+
+    entryRoute: string;
+    entrySearchRoute: string;
+
+    constructor() {
+        this.entryRoute = UiRoutes.entry;
+        this.entrySearchRoute = UiRoutes.entrySearch;
+    }
+
 }
