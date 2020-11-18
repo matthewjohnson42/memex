@@ -1,6 +1,7 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {RawText} from '../../data/raw-text';
 import {Pageable} from '../../data/pageable';
+import {RawTextSearchRequest} from '../../data/raw-text-search-request';
 
 /**
  * Class providing persistence of http request bodies and http response bodies
@@ -9,33 +10,28 @@ import {Pageable} from '../../data/pageable';
 @Injectable({
     providedIn: 'root'
 })
-export class PersistenceService implements OnDestroy {
+export class PersistenceService {
 
     /* the names of items as persisted to local storage */
     static readonly rawTextRequestName: string = 'rawTextRequest';
     static readonly rawTextResponseName: string = 'rawTextResponse';
     static readonly rawTextPageResponseName: string = 'rawTextPageResponse';
+    static readonly rawTextSearchRequestName: string = 'rawTextSearchRequest';
     static readonly rawTextSearchResponseName: string = 'rawTextSearchResponse';
 
     /* items to persist */
     rawTextRequest: RawText;
     rawTextResponse: RawText;
     rawTextPageResponse: Pageable<RawText>;
+    rawTextSearchRequest: RawTextSearchRequest;
     rawTextSearchResponse: Pageable<RawText>;
 
     constructor() {
         this.loadRawTextRequest();
         this.loadRawTextResponse();
         this.loadRawTextPageResponse();
+        this.loadRawTextSearchRequest();
         this.loadRawTextSearchResponse();
-    }
-
-    ngOnDestroy() {
-        console.log('Persistence service destroyed');
-        this.persistRawTextRequest();
-        this.persistRawTextResponse();
-        this.persistRawTextPageResponse();
-        this.persistRawTextSearchResponse();
     }
 
     /* getters and setters for the persistent member variables */
@@ -59,6 +55,13 @@ export class PersistenceService implements OnDestroy {
     setRawTextPageResponse(rawTextPage: Pageable<RawText>): void {
         this.rawTextPageResponse = rawTextPage;
         this.persistRawTextPageResponse();
+    }
+    getRawTextSearchRequest(): RawTextSearchRequest {
+        return this.rawTextSearchRequest;
+    }
+    setRawTextSearchRequest(rawTextSearchRequest: RawTextSearchRequest) {
+        this.rawTextSearchRequest = rawTextSearchRequest;
+        this.persistRawTextSearchRequest();
     }
     getRawTextSearchResponse(): Pageable<RawText> {
         return this.rawTextSearchResponse;
@@ -102,6 +105,17 @@ export class PersistenceService implements OnDestroy {
             localStorage.setItem(PersistenceService.rawTextPageResponseName, JSON.stringify(this.rawTextPageResponse));
         }
     }
+    loadRawTextSearchRequest(): void {
+        const json = JSON.parse(localStorage.getItem(PersistenceService.rawTextSearchRequestName));
+        if ( json ) {
+            this.rawTextSearchRequest = this.parseRawTextSearchRequest(json);
+        }
+    }
+    persistRawTextSearchRequest(): void {
+        if ( this.rawTextSearchRequest ) {
+            localStorage.setItem(PersistenceService.rawTextSearchRequestName, JSON.stringify(this.rawTextSearchRequest));
+        }
+    }
     loadRawTextSearchResponse(): void {
         const json = JSON.parse(localStorage.getItem(PersistenceService.rawTextSearchResponseName));
         if ( json ) {
@@ -129,6 +143,15 @@ export class PersistenceService implements OnDestroy {
             rawTextArray.push(this.parseRawText(rawText));
         }
         return new Pageable<RawText>(rawTextArray, json.totalElement, json.number, json.size);
+    }
+    private parseRawTextSearchRequest(json: any): RawTextSearchRequest {
+        return new RawTextSearchRequest(
+            json.searchString,
+            json.pageSize,
+            json.pageNumber,
+            json.startCreateDate,
+            json.endUpdateDate
+        );
     }
 
 }

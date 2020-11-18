@@ -4,6 +4,7 @@ import {ApiService} from '../http/api.service';
 import {HttpCommonService} from '../http/http-common.service';
 import {Observable} from 'rxjs';
 import {RawTextSearchRequest} from '../../data/raw-text-search-request';
+import {PersistenceService} from './persistence.service';
 
 /**
  * Service for specification of raw text transformations.
@@ -16,10 +17,12 @@ export class RawTextService {
 
     apiService: ApiService;
     httpCommonService: HttpCommonService;
+    persistenceService: PersistenceService;
 
-    constructor(apiService: ApiService, httpCommonService: HttpCommonService) {
+    constructor(apiService: ApiService, httpCommonService: HttpCommonService, persistenceService: PersistenceService) {
         this.apiService = apiService;
         this.httpCommonService = httpCommonService;
+        this.persistenceService = persistenceService;
     }
 
     getPage(pageSize: number, pageNumber: number): Observable<any> {
@@ -49,6 +52,14 @@ export class RawTextService {
             pageSize: pageSize ? pageSize : 10,
             pageNumber: pageNumber ? pageNumber : 0
         };
+        this.persistenceService.setRawTextSearchRequest(rawTextSearchRequest);
+        return this.apiService.search(rawTextSearchRequest);
+    }
+
+    searchFromPrevious(pageNumber: number): Observable<any> {
+        const rawTextSearchRequest: RawTextSearchRequest = this.persistenceService.getRawTextSearchRequest();
+        rawTextSearchRequest.pageNumber = pageNumber;
+        this.persistenceService.setRawTextSearchRequest(rawTextSearchRequest);
         return this.apiService.search(rawTextSearchRequest);
     }
 
