@@ -1,14 +1,15 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {interval, Subscription} from 'rxjs';
 import {RawTextService} from '../../service/data/raw-text.service';
 import {PersistenceService} from '../../service/data/persistence.service';
+import {RawText} from '../../data/raw-text';
 
 @Component({
     selector: 'app-entry-screen',
     templateUrl: './entry-screen.component.html',
     styleUrls: ['./entry-screen.component.css']
 })
-export class EntryScreenComponent implements OnInit, OnDestroy {
+export class EntryScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
     persistenceService: PersistenceService;
     rawTextService: RawTextService;
@@ -24,10 +25,20 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        const searchSelection: RawText = this.persistenceService.getRawTextSearchSelection();
+        console.log(searchSelection);
+        if ( searchSelection ) {
+            this.id = searchSelection.id;
+            this.textAreaValue = searchSelection.textContent;
+        }
         this.timeInterval = interval(5000).subscribe(timeInterval => {
             this.persistEntry();
             this.previousTextAreaValue = this.textAreaValue;
         });
+    }
+
+    ngAfterViewInit() {
+        // no op
     }
 
     ngOnDestroy() {

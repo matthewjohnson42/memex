@@ -20,7 +20,7 @@ export class MainHeaderComponent {
         this.newEntryEvent = new EventEmitter();
     }
 
-    private newEntry(): void {
+    newEntry(): void {
         this.newEntryEvent.emit(null);
     }
 

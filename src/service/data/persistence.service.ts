@@ -15,23 +15,26 @@ export class PersistenceService {
     /* the names of items as persisted to local storage */
     static readonly rawTextRequestName: string = 'rawTextRequest';
     static readonly rawTextResponseName: string = 'rawTextResponse';
+    static readonly rawTextSearchSelectionName: string = 'rawTextSearchSelection';
     static readonly rawTextPageResponseName: string = 'rawTextPageResponse';
-    static readonly rawTextSearchRequestName: string = 'rawTextSearchRequest';
     static readonly rawTextSearchResponseName: string = 'rawTextSearchResponse';
+    static readonly rawTextSearchRequestName: string = 'rawTextSearchRequest';
 
     /* items to persist */
     rawTextRequest: RawText;
     rawTextResponse: RawText;
+    rawTextSearchSelection: RawText;
     rawTextPageResponse: Pageable<RawText>;
-    rawTextSearchRequest: RawTextSearchRequest;
     rawTextSearchResponse: Pageable<RawText>;
+    rawTextSearchRequest: RawTextSearchRequest;
 
     constructor() {
         this.loadRawTextRequest();
         this.loadRawTextResponse();
+        this.loadRawTextSearchSelection();
         this.loadRawTextPageResponse();
-        this.loadRawTextSearchRequest();
         this.loadRawTextSearchResponse();
+        this.loadRawTextSearchRequest();
     }
 
     /* getters and setters for the persistent member variables */
@@ -49,6 +52,12 @@ export class PersistenceService {
         this.rawTextResponse = rawText;
         this.persistRawTextResponse();
     }
+    getRawTextSearchSelection(): RawText {
+        return this.rawTextSearchSelection;
+    }
+    setRawTextSearchSelection(rawText: RawText): void {
+        this.rawTextSearchSelection = rawText;
+    }
     getRawTextPageResponse(): Pageable<RawText> {
         return this.rawTextPageResponse;
     }
@@ -56,19 +65,19 @@ export class PersistenceService {
         this.rawTextPageResponse = rawTextPage;
         this.persistRawTextPageResponse();
     }
-    getRawTextSearchRequest(): RawTextSearchRequest {
-        return this.rawTextSearchRequest;
-    }
-    setRawTextSearchRequest(rawTextSearchRequest: RawTextSearchRequest) {
-        this.rawTextSearchRequest = rawTextSearchRequest;
-        this.persistRawTextSearchRequest();
-    }
     getRawTextSearchResponse(): Pageable<RawText> {
         return this.rawTextSearchResponse;
     }
     setRawTextSearchResponse(rawTextSearchResponse: Pageable<RawText>) {
         this.rawTextSearchResponse = rawTextSearchResponse;
         this.persistRawTextSearchResponse();
+    }
+    getRawTextSearchRequest(): RawTextSearchRequest {
+        return this.rawTextSearchRequest;
+    }
+    setRawTextSearchRequest(rawTextSearchRequest: RawTextSearchRequest) {
+        this.rawTextSearchRequest = rawTextSearchRequest;
+        this.persistRawTextSearchRequest();
     }
 
     /* load and persist methods for the persistent member variables */
@@ -94,6 +103,15 @@ export class PersistenceService {
             localStorage.setItem(PersistenceService.rawTextResponseName, JSON.stringify(this.rawTextResponse));
         }
     }
+    loadRawTextSearchSelection(): void {
+        const json = JSON.parse(localStorage.getItem(PersistenceService.rawTextSearchSelectionName));
+        if ( json ) {
+            this.rawTextSearchSelection = this.parseRawText(json);
+        }
+    }
+    persistRawTextSearchSelection(): void {
+        localStorage.setItem(PersistenceService.rawTextSearchSelectionName, JSON.stringify(this.rawTextSearchSelection));
+    }
     loadRawTextPageResponse(): void {
         const json = JSON.parse(localStorage.getItem(PersistenceService.rawTextPageResponseName));
         if ( json ) {
@@ -105,17 +123,6 @@ export class PersistenceService {
             localStorage.setItem(PersistenceService.rawTextPageResponseName, JSON.stringify(this.rawTextPageResponse));
         }
     }
-    loadRawTextSearchRequest(): void {
-        const json = JSON.parse(localStorage.getItem(PersistenceService.rawTextSearchRequestName));
-        if ( json ) {
-            this.rawTextSearchRequest = this.parseRawTextSearchRequest(json);
-        }
-    }
-    persistRawTextSearchRequest(): void {
-        if ( this.rawTextSearchRequest ) {
-            localStorage.setItem(PersistenceService.rawTextSearchRequestName, JSON.stringify(this.rawTextSearchRequest));
-        }
-    }
     loadRawTextSearchResponse(): void {
         const json = JSON.parse(localStorage.getItem(PersistenceService.rawTextSearchResponseName));
         if ( json ) {
@@ -125,6 +132,17 @@ export class PersistenceService {
     persistRawTextSearchResponse(): void {
         if ( this.rawTextSearchResponse ) {
             localStorage.setItem(PersistenceService.rawTextSearchResponseName, JSON.stringify(this.rawTextSearchResponse));
+        }
+    }
+    loadRawTextSearchRequest(): void {
+        const json = JSON.parse(localStorage.getItem(PersistenceService.rawTextSearchRequestName));
+        if ( json ) {
+            this.rawTextSearchRequest = this.parseRawTextSearchRequest(json);
+        }
+    }
+    persistRawTextSearchRequest(): void {
+        if ( this.rawTextSearchRequest ) {
+            localStorage.setItem(PersistenceService.rawTextSearchRequestName, JSON.stringify(this.rawTextSearchRequest));
         }
     }
 

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {PersistenceService} from '../../../service/data/persistence.service';
 import {RawText} from '../../../data/raw-text';
 import {MatTableDataSource} from '@angular/material/table';
@@ -40,10 +40,16 @@ export class SearchResultScreenComponent implements OnInit {
         }
     }
 
-    private updatePage(event: PageEvent): void {
+    updatePage(event: PageEvent): void {
         this.rawTextService.searchFromPrevious(event.pageIndex).subscribe(next => {
             this.dataSource.data = this.persistenceService.getRawTextSearchResponse().content;
         });
+    }
+
+    select(rawTextResponse: RawText) {
+        console.log(rawTextResponse);
+        this.persistenceService.setRawTextSearchSelection(rawTextResponse);
+        this.router.navigateByUrl(UiRoutes.entry).then();
     }
 
 }
