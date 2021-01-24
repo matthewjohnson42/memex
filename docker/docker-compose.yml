@@ -5,3 +5,4 @@ services:
     container_name: memex-ui
     ports:
       - "8088:80"
+
