@@ -34,7 +34,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/assets/config.json",
-                  "with": "src/config/prod.json"
+                  "with": "src/assets/prod.json"
                 }
               ],
               "optimization": true,
