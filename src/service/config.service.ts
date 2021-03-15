@@ -21,9 +21,6 @@ export class ConfigService {
     load(): Promise<void> {
         return this.httpClient.get<AppConfig>('assets/config.json').toPromise().then( value => {
             ConfigService.config = value;
-            if (ConfigService.config.production === true) {
-                enableProdMode();
-            }
         });
     }
 }
