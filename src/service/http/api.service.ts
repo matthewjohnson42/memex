@@ -5,10 +5,12 @@ import {Pageable} from '../../data/pageable';
 import {RawText} from '../../data/raw-text';
 import {ConfigService} from '../config.service';
 import {HttpCommonService} from './http-common.service';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {PersistenceService} from '../data/persistence.service';
 import {RawTextSearchRequest} from '../../data/raw-text-search-request';
 import {map} from 'rxjs/operators';
+import {AuthResponse} from '../../data/auth-response';
+import {AuthRequest} from '../../data/auth-request';
 
 /**
  * Service for forming HTTP requests.
@@ -32,20 +34,14 @@ export class ApiService {
         this.persistenceService = persistenceService;
     }
 
-    getRawTextPage(pageSize: number, pageNumber: number): Observable<any> {
-        return this.httpCommonService.getPageParams(
-            pageSize,
-            pageNumber
+    authenticate(authRequest: AuthRequest): Observable<any> {
+        return this.httpClient.post<AuthResponse>(
+            `${this.apiUrl}${ApiUrls.authUrl}`,
+            authRequest,
+            {observe: 'body'}
         ).pipe(
-            map(params => {
-                this.httpClient.get<Pageable<RawText>>(
-                    `${this.apiUrl}${ApiUrls.rawTextUrl}`,
-                    {params: params, observe: 'body'}
-                ).subscribe(
-                    responseBody => {
-                        this.persistenceService.setRawTextPageResponse(responseBody);
-                    }
-                );
+            map(responseBody => {
+                this.persistenceService.persistAuthToken(responseBody);
             })
         );
     }
@@ -56,7 +52,7 @@ export class ApiService {
             {observe: 'body'}
         ).pipe(
             map(responseBody => {
-                this.persistenceService.setRawTextResponse(responseBody);
+                this.persistenceService.persistRawTextResponse(responseBody);
             })
         );
     }
@@ -68,7 +64,7 @@ export class ApiService {
             {observe: 'body'}
         ).pipe(
             map(response => {
-                this.persistenceService.setRawTextRequest(response);
+                this.persistenceService.persistRawTextRequest(response);
             })
         );
     }
@@ -80,7 +76,25 @@ export class ApiService {
             {observe: 'body'}
         ).pipe(
             map(response => {
-                this.persistenceService.setRawTextRequest(response);
+                this.persistenceService.persistRawTextRequest(response);
+            })
+        );
+    }
+
+    getRawTextPage(pageSize: number, pageNumber: number): Observable<any> {
+        return this.httpCommonService.getPageParams(
+            pageSize,
+            pageNumber
+        ).pipe(
+            map(params => {
+                this.httpClient.get<Pageable<RawText>>(
+                    `${this.apiUrl}${ApiUrls.rawTextUrl}`,
+                    {params: params, observe: 'body'}
+                ).subscribe(
+                    responseBody => {
+                        this.persistenceService.persistRawTextPageResponse(responseBody);
+                    }
+                );
             })
         );
     }
@@ -92,7 +106,7 @@ export class ApiService {
             {observe: 'body'}
         ).pipe(
             map(response => {
-                this.persistenceService.setRawTextSearchResponse(response);
+                this.persistenceService.persistRawTextSearchResponse(response);
             })
         );
     }

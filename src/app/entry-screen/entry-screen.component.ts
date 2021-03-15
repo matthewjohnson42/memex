@@ -25,7 +25,7 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        const searchSelection: RawText = this.persistenceService.getRawTextSearchSelection();
+        const searchSelection: RawText = this.persistenceService.loadRawTextSearchSelection();
         if ( searchSelection ) {
             this.id = searchSelection.id;
             this.textAreaValue = searchSelection.textContent;
@@ -43,7 +43,7 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
 
     public reInitComponent(): void {
         this.persistEntry();
-        this.persistenceService.setRawTextRequest(undefined);
+        this.persistenceService.persistRawTextRequest(undefined);
         this.id = '';
         this.previousTextAreaValue = '';
         this.textAreaValue = '';
@@ -55,7 +55,7 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
                 this.rawTextService.put(this.id, this.textAreaValue).subscribe();
             } else {
                 this.rawTextService.post(this.textAreaValue).subscribe(response => {
-                    this.id = this.persistenceService.getRawTextRequest().id;
+                    this.id = this.persistenceService.loadRawTextRequest().id;
                 });
             }
         }

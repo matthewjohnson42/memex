@@ -14,12 +14,14 @@ import {RawTextService} from '../service/data/raw-text.service';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {ConfigService} from '../service/config.service';
 import {HttpCommonService} from '../service/http/http-common.service';
+import {LoginScreenComponent} from '../app/login-screen/login-screen.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         MainHeaderComponent,
         EntryScreenComponent,
+        LoginScreenComponent,
         SearchQueryScreenComponent,
         SearchResultScreenComponent
     ],

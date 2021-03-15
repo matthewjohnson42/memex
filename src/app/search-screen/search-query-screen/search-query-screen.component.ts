@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {RawTextService} from '../../../service/data/raw-text.service';
 import {Router} from '@angular/router';
 import {UiRoutes} from '../../../const/ui-routes';

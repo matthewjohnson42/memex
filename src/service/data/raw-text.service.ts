@@ -52,14 +52,14 @@ export class RawTextService {
             pageSize: pageSize ? pageSize : 10,
             pageNumber: pageNumber ? pageNumber : 0
         };
-        this.persistenceService.setRawTextSearchRequest(rawTextSearchRequest);
+        this.persistenceService.persistRawTextSearchRequest(rawTextSearchRequest);
         return this.apiService.search(rawTextSearchRequest);
     }
 
     searchFromPrevious(pageNumber: number): Observable<any> {
-        const rawTextSearchRequest: RawTextSearchRequest = this.persistenceService.getRawTextSearchRequest();
+        const rawTextSearchRequest: RawTextSearchRequest = this.persistenceService.loadRawTextSearchRequest();
         rawTextSearchRequest.pageNumber = pageNumber;
-        this.persistenceService.setRawTextSearchRequest(rawTextSearchRequest);
+        this.persistenceService.persistRawTextSearchRequest(rawTextSearchRequest);
         return this.apiService.search(rawTextSearchRequest);
     }
 

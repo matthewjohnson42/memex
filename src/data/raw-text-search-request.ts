@@ -1,4 +1,9 @@
 export class RawTextSearchRequest {
+    searchString: string;
+    pageSize: number;
+    pageNumber: number;
+    startCreateDate: string;
+    endUpdateDate: string;
     constructor(searchString: string, pageSize: number, pageNumber: number, startCreateDate: string, endUpdateDate: string) {
         this.searchString = searchString;
         this.pageSize = pageSize;
@@ -6,9 +11,4 @@ export class RawTextSearchRequest {
         this.startCreateDate = startCreateDate;
         this.endUpdateDate = endUpdateDate;
     }
-    searchString: string;
-    pageSize: number;
-    pageNumber: number;
-    startCreateDate: string;
-    endUpdateDate: string;
 }

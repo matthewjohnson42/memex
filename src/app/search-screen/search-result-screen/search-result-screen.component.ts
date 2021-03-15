@@ -31,7 +31,7 @@ export class SearchResultScreenComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.page = this.persistenceService.getRawTextSearchResponse();
+        this.page = this.persistenceService.loadRawTextSearchResponse();
         if ( this.page ) {
             this.dataSource.data = this.page.content;
             this.dataSource.paginator = this.paginator;
@@ -42,13 +42,13 @@ export class SearchResultScreenComponent implements OnInit {
 
     updatePage(event: PageEvent): void {
         this.rawTextService.searchFromPrevious(event.pageIndex).subscribe(next => {
-            this.dataSource.data = this.persistenceService.getRawTextSearchResponse().content;
+            this.dataSource.data = this.persistenceService.loadRawTextSearchResponse().content;
         });
     }
 
     select(rawTextResponse: RawText) {
         console.log(rawTextResponse);
-        this.persistenceService.setRawTextSearchSelection(rawTextResponse);
+        this.persistenceService.persistRawTextSearchSelection(rawTextResponse);
         this.router.navigateByUrl(UiRoutes.entry).then();
     }
 
