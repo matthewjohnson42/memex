@@ -4,6 +4,9 @@ import {RawTextService} from '../../service/data/raw-text.service';
 import {PersistenceService} from '../../service/data/persistence.service';
 import {RawText} from '../../data/raw-text';
 
+/**
+ * Screen for displaying and editing a text document. Saves on a time interval.
+ */
 @Component({
     selector: 'app-entry-screen',
     templateUrl: './entry-screen.component.html',

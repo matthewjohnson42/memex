@@ -13,6 +13,9 @@ const routes: Routes = [
     {path: UiRoutes.entrySearchResult, component: SearchResultScreenComponent}
 ];
 
+/**
+ * Module that specifies URI routing behavior
+ */
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule],

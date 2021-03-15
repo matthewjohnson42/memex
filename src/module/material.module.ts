@@ -10,6 +10,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatIconModule} from '@angular/material/icon';
 
+/**
+ * Module for specifying Material theme imports
+ */
 @NgModule({
     declarations: [],
     imports: [

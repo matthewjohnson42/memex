@@ -1,6 +1,9 @@
 import {Component, EventEmitter} from '@angular/core';
 import {UiRoutes} from '../../const/ui-routes';
 
+/**
+ * The main header of the application; always present.
+ */
 @Component({
     selector: 'app-main-header',
     templateUrl: './main-header.component.html',

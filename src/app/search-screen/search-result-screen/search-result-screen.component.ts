@@ -8,6 +8,10 @@ import {Router} from '@angular/router';
 import {UiRoutes} from '../../../const/ui-routes';
 import {RawTextService} from '../../../service/data/raw-text.service';
 
+/**
+ * Displays search results and allows for a specified result to be loaded into PersistenceService
+ * and the entry screen routed to. On load, the entry screen displays the content from PersistenceService.
+ */
 @Component({
     selector: 'app-search-result-screen',
     templateUrl: './search-result-screen.component.html',

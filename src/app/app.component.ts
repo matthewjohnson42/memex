@@ -3,6 +3,15 @@ import {MainHeaderComponent} from './main-header/main-header.component';
 import {Router, RouterOutlet} from '@angular/router';
 import {EntryScreenComponent} from './entry-screen/entry-screen.component';
 
+/**
+ * Root component for the Angular app.
+ * Contains references to the main-header component, and a pane populated from the routerOutlet.
+ * Panes are:
+ *  login-screen
+ *  entry-screen for entering text documents, auto saved on a timer
+ *  search-query-screen for querying the elastic search DB of personal-memex-server
+ *  search-result-screen for displaying search results and loading them into the entry screen
+ */
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',

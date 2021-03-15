@@ -15,7 +15,24 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {ConfigService} from '../service/config.service';
 import {HttpCommonService} from '../service/http/http-common.service';
 import {LoginScreenComponent} from '../app/login-screen/login-screen.component';
+import {PersistenceService} from '../service/data/persistence.service';
+import {ApiService} from '../service/http/api.service';
 
+/**
+ * Default app module; specifies the components used by the app, along with imported modules.
+ * Also specifies the services that are loaded at application start, which persist across the load
+ * of any given component into the display.
+ *
+ * Entry point for other components is AppComponent.
+ *
+ * Services:
+ *  ApiService - http requests
+ *  AuthService - authentication with server via ApiService and PersistenceService
+ *  ConfigService - Angular configurations (base apiUrl)
+ *  HttpCommonService - common utils used by ApiService
+ *  PersistenceService - storage of session information
+ *  RawTextService - text document retrieval and storage via ApiService and PersistenceService
+ */
 @NgModule({
     declarations: [
         AppComponent,
@@ -37,6 +54,7 @@ import {LoginScreenComponent} from '../app/login-screen/login-screen.component';
     ],
     exports: [],
     providers: [
+        ApiService,
         AuthService,
         ConfigService,
         {
@@ -46,6 +64,7 @@ import {LoginScreenComponent} from '../app/login-screen/login-screen.component';
             multi: true
         },
         HttpCommonService,
+        PersistenceService,
         RawTextService
     ],
     bootstrap: [AppComponent]

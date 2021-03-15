@@ -3,6 +3,9 @@ import {AuthService} from '../../service/auth.service';
 import {Router} from '@angular/router';
 import {UiRoutes} from '../../const/ui-routes';
 
+/**
+ * The login screen, allowing for authentication with the personal-memex-service
+ */
 @Component({
     selector: 'app-login-screen',
     templateUrl: './login-screen.component.html',

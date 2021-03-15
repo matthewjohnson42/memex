@@ -3,6 +3,9 @@ import {RawTextService} from '../../../service/data/raw-text.service';
 import {Router} from '@angular/router';
 import {UiRoutes} from '../../../const/ui-routes';
 
+/**
+ * Screen for specifying the content of a serach request made to personal-memex-service
+ */
 @Component({
     selector: 'app-retrieval-screen',
     templateUrl: './search-query-screen.component.html',

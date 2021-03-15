@@ -7,6 +7,8 @@ The purpose of the application is to store notes with tags so that those notes m
 The application is planned to be hosted on AWS, and is planned to interact with [personal-memex-service](https://github.com/matthewjohnson42/personal-memex-service) as its backend.
 The configuration of the host on AWS is provided by [personal-memex-server](https://github.com/matthewjohnson42/personal-memex-server).
 
+Class level comments exist detailing the design of the app. 
+
 ### Using the app locally
 To run the Angular application, see the [docker/README.md](https://github.com/matthewjohnson42/personal-memex-ui/blob/master/docker/README.md).
 

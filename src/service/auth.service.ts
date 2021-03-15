@@ -4,6 +4,9 @@ import {PersistenceService} from './data/persistence.service';
 import {Observable} from 'rxjs';
 import {AuthRequest} from '../data/auth-request';
 
+/**
+ * Service for accessing authentication functionality on the personal-memex-service.
+ */
 @Injectable({
     providedIn: 'root'
 })

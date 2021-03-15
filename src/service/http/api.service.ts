@@ -15,7 +15,7 @@ import {AuthRequest} from '../../data/auth-request';
 /**
  * Service for forming HTTP requests.
  * Requests are made to the personal-memex-service web API.
- * Responses are persisted in the requesting service.
+ * Responses are persisted with PersistenceService.
  */
 @Injectable({
     providedIn: 'root'
