@@ -1,4 +1,5 @@
 {
   "production": true,
-  "apiUrl": "https://personal-memex-service.matthewjohnson42.com"
+  "apiProtocol": "http://",
+  "apiHost": "personal-memex-service.matthewjohnson42.com"
 }

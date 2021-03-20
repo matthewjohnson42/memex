@@ -21,6 +21,7 @@ export class LoginScreenComponent {
 
     constructor(authService: AuthService, router: Router) {
         this.authService = authService;
+        this.router = router;
     }
 
     login(): void {

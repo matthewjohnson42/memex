@@ -19,7 +19,7 @@ export class MainHeaderComponent {
     constructor() {
         this.displayIsEntryScreen = false;
         this.entryRoute = UiRoutes.entry;
-        this.entrySearchRoute = UiRoutes.entrySearch;
+        this.entrySearchRoute = UiRoutes.search;
         this.newEntryEvent = new EventEmitter();
     }
 

@@ -1,4 +1,5 @@
 {
   "production": false,
-  "apiUrl": "http://localhost:8080"
+  "apiProtocol": "http://",
+  "apiHost": "localhost:8080"
 }

@@ -3,6 +3,8 @@ import {RawText} from '../../data/raw-text';
 import {Pageable} from '../../data/pageable';
 import {RawTextSearchRequest} from '../../data/raw-text-search-request';
 import {AuthResponse} from '../../data/auth-response';
+import {Observable, of} from 'rxjs';
+import {AppConfig} from "../../data/app-config";
 
 /**
  * Class providing persistence of http request bodies and http response bodies
@@ -21,6 +23,7 @@ export class PersistenceService {
     static readonly rawTextPageResponseName: string = 'rawTextPageResponse';
     static readonly rawTextSearchResponseName: string = 'rawTextSearchResponse';
     static readonly rawTextSearchRequestName: string = 'rawTextSearchRequest';
+    static readonly memexAppConfigName: string = 'memexAppConfig';
 
     constructor() {
         this.loadRawTextRequest();
@@ -32,6 +35,14 @@ export class PersistenceService {
     }
 
     /* load and persist methods for the persistent member variables */
+    loadMemexAppConfig(): AppConfig {
+        const json = JSON.parse(localStorage.getItem(PersistenceService.memexAppConfigName));
+        if ( json ) {
+            return this.parseConfig(json);
+        }
+    }
+    /* no setter for config; persisted in main.ts at application start */
+
     loadAuthToken(): string {
         const token = localStorage.getItem(PersistenceService.authTokenName);
         if ( token ) {
@@ -52,6 +63,7 @@ export class PersistenceService {
             return null;
         }
     }
+    // todo update to Observable, do the same with all in class (can be blank consumer for ApiService, or a proper join)
     persistRawTextRequest(rawTextRequest: RawText): void {
         if ( rawTextRequest ) {
             localStorage.setItem(PersistenceService.rawTextRequestName, JSON.stringify(rawTextRequest));
@@ -80,9 +92,11 @@ export class PersistenceService {
             return null;
         }
     }
-    persistRawTextSearchSelection(rawTextSearchSelection: RawText): void {
+    persistRawTextSearchSelection(rawTextSearchSelection: RawText): Observable<any> {
         if ( rawTextSearchSelection ) {
-            localStorage.setItem(PersistenceService.rawTextSearchSelectionName, JSON.stringify(rawTextSearchSelection));
+            return of(localStorage.setItem(PersistenceService.rawTextSearchSelectionName, JSON.stringify(rawTextSearchSelection)));
+        } else {
+            return of();
         }
     }
 
@@ -122,6 +136,7 @@ export class PersistenceService {
             return null;
         }
     }
+    // todo update to observable return type, do the same for all other persist methods
     persistRawTextSearchRequest(rawTextSearchRequest: RawTextSearchRequest): void {
         if ( rawTextSearchRequest ) {
             localStorage.setItem(PersistenceService.rawTextSearchRequestName, JSON.stringify(rawTextSearchRequest));
@@ -131,6 +146,13 @@ export class PersistenceService {
     }
 
     /* helper methods */
+    private parseConfig(json: any): AppConfig {
+        return new AppConfig(
+            json.production,
+            json.apiProtocol,
+            json.apiHost
+        );
+    }
     private parseRawText(json: any): RawText {
         return new RawText(
             json.id,

@@ -3,7 +3,6 @@ import {HttpClient} from '@angular/common/http';
 import {ApiUrls} from '../../const/api-urls';
 import {Pageable} from '../../data/pageable';
 import {RawText} from '../../data/raw-text';
-import {ConfigService} from '../config.service';
 import {HttpCommonService} from './http-common.service';
 import {Observable} from 'rxjs';
 import {PersistenceService} from '../data/persistence.service';
@@ -11,6 +10,7 @@ import {RawTextSearchRequest} from '../../data/raw-text-search-request';
 import {map} from 'rxjs/operators';
 import {AuthResponse} from '../../data/auth-response';
 import {AuthRequest} from '../../data/auth-request';
+import {AppConfig} from "../../data/app-config";
 
 /**
  * Service for forming HTTP requests.
@@ -28,7 +28,8 @@ export class ApiService {
     persistenceService: PersistenceService;
 
     constructor(httpClient: HttpClient, httpCommonService: HttpCommonService, persistenceService: PersistenceService) {
-        this.apiUrl = ConfigService.config.apiUrl;
+        const config = persistenceService.loadMemexAppConfig();
+        this.apiUrl = config.apiProtocol + config.apiHost;
         this.httpClient = httpClient;
         this.httpCommonService = httpCommonService;
         this.persistenceService = persistenceService;

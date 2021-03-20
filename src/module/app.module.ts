@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from '../app/app.component';
 import {MainHeaderComponent} from '../app/main-header/main-header.component';
@@ -11,12 +11,12 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SearchResultScreenComponent} from '../app/search-screen/search-result-screen/search-result-screen.component';
 import {AuthService} from '../service/auth.service';
 import {RawTextService} from '../service/data/raw-text.service';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
-import {ConfigService} from '../service/config.service';
+import {HttpClientModule} from '@angular/common/http';
 import {HttpCommonService} from '../service/http/http-common.service';
 import {LoginScreenComponent} from '../app/login-screen/login-screen.component';
 import {PersistenceService} from '../service/data/persistence.service';
 import {ApiService} from '../service/http/api.service';
+import {JWT_OPTIONS, JwtModule} from '@auth0/angular-jwt';
 
 /**
  * Default app module; specifies the components used by the app, along with imported modules.
@@ -48,6 +48,20 @@ import {ApiService} from '../service/http/api.service';
         BrowserModule,
         FormsModule,
         HttpClientModule,
+        JwtModule.forRoot({
+            jwtOptionsProvider: {
+                provide: JWT_OPTIONS,
+                useFactory: (persistenceService: PersistenceService) => {
+                    return {
+                        tokenGetter: () => {
+                            return persistenceService.loadAuthToken();
+                        },
+                        allowedDomains: [persistenceService.loadMemexAppConfig().apiHost]
+                    };
+                },
+                deps: [PersistenceService]
+            }
+        }),
         MaterialModule,
         ReactiveFormsModule,
         AppRoutingModule
@@ -56,13 +70,6 @@ import {ApiService} from '../service/http/api.service';
     providers: [
         ApiService,
         AuthService,
-        ConfigService,
-        {
-            provide: APP_INITIALIZER,
-            useFactory: (configService: ConfigService) => () => configService.load(),
-            deps: [ConfigService, HttpClient],
-            multi: true
-        },
         HttpCommonService,
         PersistenceService,
         RawTextService

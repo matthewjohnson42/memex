@@ -40,7 +40,7 @@ export class SearchResultScreenComponent implements OnInit {
             this.dataSource.data = this.page.content;
             this.dataSource.paginator = this.paginator;
         } else {
-            this.router.navigateByUrl(UiRoutes.entrySearch).then();
+            this.router.navigateByUrl(UiRoutes.search).then();
         }
     }
 
@@ -52,8 +52,9 @@ export class SearchResultScreenComponent implements OnInit {
 
     select(rawTextResponse: RawText) {
         console.log(rawTextResponse);
-        this.persistenceService.persistRawTextSearchSelection(rawTextResponse);
-        this.router.navigateByUrl(UiRoutes.entry).then();
+        this.persistenceService.persistRawTextSearchSelection(rawTextResponse).subscribe(next => {
+            this.router.navigateByUrl(UiRoutes.entry).then();
+        });
     }
 
 }

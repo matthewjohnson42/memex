@@ -27,7 +27,7 @@ export class SearchQueryScreenComponent {
 
     search(): void {
         this.rawTextService.search(this.searchString, this.startDate, this.endDate).subscribe(next => {
-            this.router.navigateByUrl(UiRoutes.entrySearchResult).then();
+            this.router.navigateByUrl(UiRoutes.searchResult).then();
         });
     }
 

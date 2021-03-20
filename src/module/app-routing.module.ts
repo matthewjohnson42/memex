@@ -5,12 +5,13 @@ import {SearchQueryScreenComponent} from '../app/search-screen/search-query-scre
 import {SearchResultScreenComponent} from '../app/search-screen/search-result-screen/search-result-screen.component';
 import {UiRoutes} from '../const/ui-routes';
 import {LoginScreenComponent} from '../app/login-screen/login-screen.component';
+import {AuthService} from '../service/auth.service';
 
 const routes: Routes = [
     {path: UiRoutes.login, component: LoginScreenComponent},
-    {path: UiRoutes.entry, component: EntryScreenComponent},
-    {path: UiRoutes.entrySearch, component: SearchQueryScreenComponent},
-    {path: UiRoutes.entrySearchResult, component: SearchResultScreenComponent}
+    {path: UiRoutes.entry, component: EntryScreenComponent, canActivate: [AuthService]},
+    {path: UiRoutes.search, component: SearchQueryScreenComponent, canActivate: [AuthService]},
+    {path: UiRoutes.searchResult, component: SearchResultScreenComponent, canActivate: [AuthService]}
 ];
 
 /**
@@ -19,7 +20,7 @@ const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule],
-    providers: []
+    providers: [AuthService]
 })
 export class AppRoutingModule {
 }
