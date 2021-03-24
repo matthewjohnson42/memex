@@ -65,7 +65,8 @@ export class ApiService {
             {observe: 'body'}
         ).pipe(
             map(response => {
-                this.persistenceService.persistRawTextRequest(response);
+                // todo update to RxJS pipe
+                this.persistenceService.persistRawTextRequest(response).subscribe();
             })
         );
     }
@@ -77,7 +78,8 @@ export class ApiService {
             {observe: 'body'}
         ).pipe(
             map(response => {
-                this.persistenceService.persistRawTextRequest(response);
+                // todo update to RxJS pipe
+                this.persistenceService.persistRawTextRequest(response).subscribe();
             })
         );
     }

@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {interval, Subscription} from 'rxjs';
+import {interval, of, Subscription} from 'rxjs';
 import {RawTextService} from '../../service/data/raw-text.service';
 import {PersistenceService} from '../../service/data/persistence.service';
 import {RawText} from '../../data/raw-text';
@@ -28,9 +28,14 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        // todo update search selection to be passed via route path rather than application memory
         const searchSelection: RawText = this.persistenceService.loadRawTextSearchSelection();
-        if ( searchSelection ) {
+        const rawTextRequest: RawText = this.persistenceService.loadRawTextRequest();
+        if ( searchSelection && ! rawTextRequest ) { // state set by search-result-screen
             this.id = searchSelection.id;
+            this.textAreaValue = searchSelection.textContent;
+        } else if ( rawTextRequest ) { // any request that had been previously persisted
+            this.id = rawTextRequest.id;
             this.textAreaValue = searchSelection.textContent;
         }
         this.timeInterval = interval(5000).subscribe(timeInterval => {
@@ -45,11 +50,13 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
     }
 
     public reInitComponent(): void {
-        this.persistEntry();
-        this.persistenceService.persistRawTextRequest(undefined);
-        this.id = '';
-        this.previousTextAreaValue = '';
-        this.textAreaValue = '';
+        // todo update to RxJS pipe
+        of(this.persistEntry()).subscribe(next => {
+            this.persistenceService.persistRawTextRequest(undefined).subscribe();
+            this.id = '';
+            this.previousTextAreaValue = '';
+            this.textAreaValue = '';
+        });
     }
 
     private persistEntry(): void {

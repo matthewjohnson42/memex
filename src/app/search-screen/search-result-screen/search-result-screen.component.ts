@@ -51,9 +51,11 @@ export class SearchResultScreenComponent implements OnInit {
     }
 
     select(rawTextResponse: RawText) {
-        console.log(rawTextResponse);
-        this.persistenceService.persistRawTextSearchSelection(rawTextResponse).subscribe(next => {
-            this.router.navigateByUrl(UiRoutes.entry).then();
+        // todo update to RxJS pipe
+        this.persistenceService.persistRawTextSearchSelection(rawTextResponse).subscribe(next0 => {
+            this.persistenceService.persistRawTextRequest(undefined).subscribe(next1 => {
+                this.router.navigateByUrl(UiRoutes.entry).then();
+            });
         });
     }
 

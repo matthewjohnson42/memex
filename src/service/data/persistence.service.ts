@@ -4,7 +4,7 @@ import {Pageable} from '../../data/pageable';
 import {RawTextSearchRequest} from '../../data/raw-text-search-request';
 import {AuthResponse} from '../../data/auth-response';
 import {Observable, of} from 'rxjs';
-import {AppConfig} from "../../data/app-config";
+import {AppConfig} from '../../data/app-config';
 
 /**
  * Class providing persistence of http request bodies and http response bodies
@@ -64,9 +64,11 @@ export class PersistenceService {
         }
     }
     // todo update to Observable, do the same with all in class (can be blank consumer for ApiService, or a proper join)
-    persistRawTextRequest(rawTextRequest: RawText): void {
+    persistRawTextRequest(rawTextRequest: RawText): Observable<any> {
         if ( rawTextRequest ) {
-            localStorage.setItem(PersistenceService.rawTextRequestName, JSON.stringify(rawTextRequest));
+            return of(localStorage.setItem(PersistenceService.rawTextRequestName, JSON.stringify(rawTextRequest)));
+        } else {
+            return of();
         }
     }
 
@@ -166,7 +168,7 @@ export class PersistenceService {
         for ( const rawText of json.content ) {
             rawTextArray.push(this.parseRawText(rawText));
         }
-        return new Pageable<RawText>(rawTextArray, json.totalElement, json.number, json.size);
+        return new Pageable<RawText>(rawTextArray, json.totalElements, json.number, json.size);
     }
     private parseRawTextSearchRequest(json: any): RawTextSearchRequest {
         return new RawTextSearchRequest(
