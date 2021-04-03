@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ApiService} from './http/api.service';
 import {PersistenceService} from './data/persistence.service';
 import {Observable} from 'rxjs';
-import {AuthRequest} from '../data/auth-request';
+import {AuthRequestDto} from '../dto/auth-request-dto';
 import {ActivatedRouteSnapshot, CanActivate, DefaultUrlSerializer, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {UiRoutes} from '../const/ui-routes';
@@ -17,6 +17,7 @@ import {UiRoutes} from '../const/ui-routes';
 export class AuthService implements CanActivate {
 
     apiService: ApiService;
+    jwtHelperService = new JwtHelperService();
     persistenceService: PersistenceService;
 
     constructor(apiService: ApiService, persistenceService: PersistenceService) {
@@ -26,8 +27,7 @@ export class AuthService implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
         Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-        const helperService = new JwtHelperService();
-        if (helperService.isTokenExpired(this.persistenceService.loadAuthToken())) {
+        if (this.jwtHelperService.isTokenExpired(this.persistenceService.loadAuthToken())) {
             return new DefaultUrlSerializer().parse(UiRoutes.login);
         } else {
             return true;
@@ -35,10 +35,10 @@ export class AuthService implements CanActivate {
     }
 
     login(username: string, password: string): Observable<any> {
-        const authRequest: AuthRequest = {
+        const authRequest = {
             username: username,
             password: password
-        };
+        } as AuthRequestDto;
         return this.apiService.authenticate(authRequest);
     }
 

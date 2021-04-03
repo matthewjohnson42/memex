@@ -1,4 +1,4 @@
-export class RawText {
+export class RawTextDto {
     id ?: string;
     textContent: string;
     createDateTime ?: string;

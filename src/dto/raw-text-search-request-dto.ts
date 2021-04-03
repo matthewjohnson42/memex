@@ -1,4 +1,4 @@
-export class RawTextSearchRequest {
+export class RawTextSearchRequestDto {
     searchString: string;
     pageSize: number;
     pageNumber: number;

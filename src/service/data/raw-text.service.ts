@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {RawText} from '../../data/raw-text';
+import {RawTextDto} from '../../dto/raw-text-dto';
 import {ApiService} from '../http/api.service';
 import {HttpCommonService} from '../http/http-common.service';
 import {Observable} from 'rxjs';
-import {RawTextSearchRequest} from '../../data/raw-text-search-request';
+import {RawTextSearchRequestDto} from '../../dto/raw-text-search-request-dto';
 import {PersistenceService} from './persistence.service';
 
 /**
@@ -30,14 +30,14 @@ export class RawTextService {
     }
 
     post(entry: string): Observable<any> {
-        const rawText: RawText = {
+        const rawText: RawTextDto = {
             textContent: entry
         };
         return this.apiService.postRawText(rawText);
     }
 
     put(id: string, entry: string): Observable<any> {
-        const rawText: RawText = {
+        const rawText: RawTextDto = {
             id: id,
             textContent: entry
         };
@@ -45,21 +45,21 @@ export class RawTextService {
     }
 
     search(searchString: string, startDate ?: Date, endDate ?: Date, pageSize ?: number, pageNumber ?: number): Observable<any> {
-        const rawTextSearchRequest: RawTextSearchRequest = {
+        const rawTextSearchRequest: RawTextSearchRequestDto = {
             searchString: searchString,
             startCreateDate: startDate instanceof Date ? startDate.toISOString() : null,
             endUpdateDate: endDate instanceof Date ? endDate.toISOString() : null,
             pageSize: pageSize ? pageSize : 10,
             pageNumber: pageNumber ? pageNumber : 0
         };
-        this.persistenceService.persistRawTextSearchRequest(rawTextSearchRequest);
+        this.persistenceService.persistRawTextSearchRequest(rawTextSearchRequest).subscribe();
         return this.apiService.search(rawTextSearchRequest);
     }
 
     searchFromPrevious(pageNumber: number): Observable<any> {
-        const rawTextSearchRequest: RawTextSearchRequest = this.persistenceService.loadRawTextSearchRequest();
+        const rawTextSearchRequest: RawTextSearchRequestDto = this.persistenceService.loadRawTextSearchRequest();
         rawTextSearchRequest.pageNumber = pageNumber;
-        this.persistenceService.persistRawTextSearchRequest(rawTextSearchRequest);
+        this.persistenceService.persistRawTextSearchRequest(rawTextSearchRequest).subscribe();
         return this.apiService.search(rawTextSearchRequest);
     }
 

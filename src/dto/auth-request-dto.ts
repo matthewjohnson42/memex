@@ -1,4 +1,4 @@
-export class AuthRequest {
+export class AuthRequestDto {
     username: string;
     password: string;
     constructor(username: string, password: string) {

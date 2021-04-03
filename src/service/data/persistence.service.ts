@@ -1,13 +1,15 @@
 import {Injectable} from '@angular/core';
-import {RawText} from '../../data/raw-text';
-import {Pageable} from '../../data/pageable';
-import {RawTextSearchRequest} from '../../data/raw-text-search-request';
-import {AuthResponse} from '../../data/auth-response';
+import {RawTextDto} from '../../dto/raw-text-dto';
+import {PageableDto} from '../../dto/pageable-dto';
+import {RawTextSearchRequestDto} from '../../dto/raw-text-search-request-dto';
+import {AuthResponseDto} from '../../dto/auth-response-dto';
 import {Observable, of} from 'rxjs';
-import {AppConfig} from '../../data/app-config';
+import {AppConfigDto} from '../../dto/app-config-dto';
+import {HttpResponseDto} from '../../dto/http-response-dto';
+import {RawTextSearchResponseDto} from '../../dto/raw-text-search-response-dto';
 
 /**
- * Class providing persistence of http request bodies and http response bodies
+ * Class providing persistence of http request bodies, http response bodies, and http errors
  * Used in place of passing data between Angular components
  */
 @Injectable({
@@ -17,6 +19,7 @@ export class PersistenceService {
 
     /* the names of items as persisted to local storage */
     static readonly authTokenName: string = 'authToken';
+    static readonly rawHttpResponseName: string = 'rawHttpResponse';
     static readonly rawTextRequestName: string = 'rawTextRequest';
     static readonly rawTextResponseName: string = 'rawTextResponse';
     static readonly rawTextSearchSelectionName: string = 'rawTextSearchSelection';
@@ -35,27 +38,38 @@ export class PersistenceService {
     }
 
     /* load and persist methods for the persistent member variables */
-    loadMemexAppConfig(): AppConfig {
+    loadMemexAppConfig(): AppConfigDto { /* no setter for config; persisted in main.ts at application start */
         const json = JSON.parse(localStorage.getItem(PersistenceService.memexAppConfigName));
         if ( json ) {
             return this.parseConfig(json);
         }
     }
-    /* no setter for config; persisted in main.ts at application start */
 
     loadAuthToken(): string {
         const token = localStorage.getItem(PersistenceService.authTokenName);
-        if ( token ) {
-            return token;
-        }
+        return token;
     }
-    persistAuthToken(authResponse: AuthResponse) {
+    persistAuthToken(authResponse: AuthResponseDto): Observable<any> {
         if ( authResponse ) {
-            localStorage.setItem(PersistenceService.authTokenName, authResponse.token);
+            return of(localStorage.setItem(PersistenceService.authTokenName, authResponse.token));
+        } else {
+            return of(localStorage.removeItem(PersistenceService.authTokenName));
         }
     }
 
-    loadRawTextRequest(): RawText {
+    loadHttpResponse(): HttpResponseDto {
+        const httpResponse = JSON.parse(localStorage.getItem(PersistenceService.rawHttpResponseName));
+        return httpResponse ? httpResponse as HttpResponseDto : null;
+    }
+    persistHttpResponse(httpResponse: HttpResponseDto): Observable<any> {
+        if (httpResponse) {
+            return of(localStorage.setItem(PersistenceService.rawHttpResponseName, JSON.stringify(httpResponse)));
+        } else {
+            return of(localStorage.removeItem(PersistenceService.rawHttpResponseName));
+        }
+    }
+
+    loadRawTextRequest(): RawTextDto {
         const json = JSON.parse(localStorage.getItem(PersistenceService.rawTextRequestName));
         if ( json ) {
             return this.parseRawText(json);
@@ -63,16 +77,15 @@ export class PersistenceService {
             return null;
         }
     }
-    // todo update to Observable, do the same with all in class (can be blank consumer for ApiService, or a proper join)
-    persistRawTextRequest(rawTextRequest: RawText): Observable<any> {
+    persistRawTextRequest(rawTextRequest: RawTextDto): Observable<any> {
         if ( rawTextRequest ) {
             return of(localStorage.setItem(PersistenceService.rawTextRequestName, JSON.stringify(rawTextRequest)));
         } else {
-            return of();
+            return of(localStorage.removeItem(PersistenceService.rawTextRequestName));
         }
     }
 
-    loadRawTextResponse(): RawText {
+    loadRawTextResponse(): RawTextDto {
         const json = JSON.parse(localStorage.getItem(PersistenceService.rawTextResponseName));
         if ( json ) {
             return this.parseRawText(json);
@@ -80,29 +93,27 @@ export class PersistenceService {
             return null;
         }
     }
-    persistRawTextResponse(rawTextResponse: RawText): void {
+    persistRawTextResponse(rawTextResponse: RawTextDto): Observable<any> {
         if ( rawTextResponse ) {
-            localStorage.setItem(PersistenceService.rawTextResponseName, JSON.stringify(rawTextResponse));
+            return of(localStorage.setItem(PersistenceService.rawTextResponseName, JSON.stringify(rawTextResponse)));
+        } else {
+            return of(localStorage.removeItem(PersistenceService.rawTextResponseName));
         }
     }
 
-    loadRawTextSearchSelection(): RawText {
+    loadRawTextSearchSelection(): RawTextDto {
         const json = JSON.parse(localStorage.getItem(PersistenceService.rawTextSearchSelectionName));
-        if ( json ) {
-            return this.parseRawText(json);
-        } else {
-            return null;
-        }
+        return json ? json as RawTextDto : undefined;
     }
-    persistRawTextSearchSelection(rawTextSearchSelection: RawText): Observable<any> {
+    persistRawTextSearchSelection(rawTextSearchSelection: RawTextDto): Observable<any> {
         if ( rawTextSearchSelection ) {
             return of(localStorage.setItem(PersistenceService.rawTextSearchSelectionName, JSON.stringify(rawTextSearchSelection)));
         } else {
-            return of();
+            return of(localStorage.removeItem(PersistenceService.rawTextSearchSelectionName));
         }
     }
 
-    loadRawTextPageResponse(): Pageable<RawText> {
+    loadRawTextPageResponse(): PageableDto<RawTextDto> {
         const json = JSON.parse(localStorage.getItem(PersistenceService.rawTextPageResponseName));
         if ( json ) {
             return this.parseRawTextPage(json);
@@ -110,27 +121,31 @@ export class PersistenceService {
             return null;
         }
     }
-    persistRawTextPageResponse(rawTextPageResponse: Pageable<RawText>): void {
+    persistRawTextPageResponse(rawTextPageResponse: PageableDto<RawTextDto>): Observable<any> {
         if ( rawTextPageResponse ) {
-            localStorage.setItem(PersistenceService.rawTextPageResponseName, JSON.stringify(rawTextPageResponse));
+            return of(localStorage.setItem(PersistenceService.rawTextPageResponseName, JSON.stringify(rawTextPageResponse)));
+        } else {
+            return of(localStorage.removeItem(PersistenceService.rawTextPageResponseName));
         }
     }
 
-    loadRawTextSearchResponse(): Pageable<RawText> {
+    loadRawTextSearchResponse(): PageableDto<RawTextSearchResponseDto> {
         const json = JSON.parse(localStorage.getItem(PersistenceService.rawTextSearchResponseName));
         if ( json ) {
-            return this.parseRawTextPage(json);
+            return this.parseRawTextSearchResponsePage(json);
         } else {
             return null;
         }
     }
-    persistRawTextSearchResponse(rawTextSearchResponse: Pageable<RawText>): void {
+    persistRawTextSearchResponse(rawTextSearchResponse: PageableDto<RawTextSearchResponseDto>): Observable<any> {
         if ( rawTextSearchResponse ) {
-            localStorage.setItem(PersistenceService.rawTextSearchResponseName, JSON.stringify(rawTextSearchResponse));
+            return of(localStorage.setItem(PersistenceService.rawTextSearchResponseName, JSON.stringify(rawTextSearchResponse)));
+        } else {
+            return of(localStorage.removeItem(PersistenceService.rawTextSearchResponseName));
         }
     }
 
-    loadRawTextSearchRequest(): RawTextSearchRequest {
+    loadRawTextSearchRequest(): RawTextSearchRequestDto {
         const json = JSON.parse(localStorage.getItem(PersistenceService.rawTextSearchRequestName));
         if ( json ) {
             return this.parseRawTextSearchRequest(json);
@@ -138,46 +153,55 @@ export class PersistenceService {
             return null;
         }
     }
-    // todo update to observable return type, do the same for all other persist methods
-    persistRawTextSearchRequest(rawTextSearchRequest: RawTextSearchRequest): void {
+    persistRawTextSearchRequest(rawTextSearchRequest: RawTextSearchRequestDto): Observable<any> {
         if ( rawTextSearchRequest ) {
-            localStorage.setItem(PersistenceService.rawTextSearchRequestName, JSON.stringify(rawTextSearchRequest));
+            return of(localStorage.setItem(PersistenceService.rawTextSearchRequestName, JSON.stringify(rawTextSearchRequest)));
         } else {
-            return null;
+            return of(localStorage.remove(PersistenceService.rawTextSearchRequestName));
         }
     }
 
     /* helper methods */
-    private parseConfig(json: any): AppConfig {
-        return new AppConfig(
-            json.production,
-            json.apiProtocol,
-            json.apiHost
-        );
+    private parseConfig(json: any): AppConfigDto {
+        return {
+            production:                 json.production ? json.production : undefined,
+            apiProtocol:                json.apiProtocol ? json.apiProtocol : undefined,
+            apiHost:                    json.apiHost ? json.apiHost : undefined,
+            errorMessageDisplayTime:    json.errorMessageDisplayTime ? json.errorMessageDisplayTime : undefined
+        } as AppConfigDto;
     }
-    private parseRawText(json: any): RawText {
-        return new RawText(
-            json.id,
-            json.textContent,
-            json.createDateTime,
-            json.updateDateTime
-        );
+    private parseRawText(json: any): RawTextDto {
+        return {
+            id: json.id ? json.id : undefined,
+            textContent:    json.textContent ? json.textContent : undefined,
+            createDateTime: json.createDateTime ? json.createDateTime : undefined,
+            updateDateTime: json.updateDateTime ? json.updateDateTime : undefined
+        } as RawTextDto;
     }
-    private parseRawTextPage(json: any): Pageable<RawText> {
-        const rawTextArray: Array<RawText> = new Array<RawText>();
+    private parseRawTextPage(json: any): PageableDto<RawTextDto> {
+        const rawTextArray: Array<RawTextDto> = new Array<RawTextDto>();
         for ( const rawText of json.content ) {
             rawTextArray.push(this.parseRawText(rawText));
         }
-        return new Pageable<RawText>(rawTextArray, json.totalElements, json.number, json.size);
+        return new PageableDto<RawTextDto>(rawTextArray, json.totalElements, json.number, json.size);
     }
-    private parseRawTextSearchRequest(json: any): RawTextSearchRequest {
-        return new RawTextSearchRequest(
-            json.searchString,
-            json.pageSize,
-            json.pageNumber,
-            json.startCreateDate,
-            json.endUpdateDate
-        );
+    private parseRawTextSearchRequest(json: any): RawTextSearchRequestDto {
+        return {
+            searchString:       json.searchString ? json.searchString : undefined,
+            pageSize:           json.pageSize ? json.pageSize : undefined,
+            pageNumber:         json.pageNumber ? json.pageNumber : undefined,
+            startCreateDate:    json.startCreateDate ? json.startCreateDate : undefined,
+            endUpdateDate:      json.endUpdateDate ? json.endUpdateDate : undefined
+        } as RawTextSearchRequestDto;
+    }
+    private parseRawTextSearchResponsePage(json: any): PageableDto<RawTextSearchResponseDto> {
+        const rawTextSearchResponseArray: Array<RawTextSearchResponseDto> = new Array<RawTextSearchResponseDto>();
+        for ( const rawTextSearchResponse of json.content ) {
+            const rawTextSearchResponseDto = this.parseRawText(rawTextSearchResponse) as RawTextSearchResponseDto;
+            rawTextSearchResponseDto.highlights = rawTextSearchResponse.highlights;
+            rawTextSearchResponseArray.push(rawTextSearchResponseDto);
+        }
+        return new PageableDto<RawTextSearchResponseDto>(rawTextSearchResponseArray, json.totalElements, json.number, json.size);
     }
 
 }

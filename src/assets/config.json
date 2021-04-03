@@ -1,5 +1,6 @@
 {
   "production": false,
   "apiProtocol": "http://",
-  "apiHost": "localhost:8080"
+  "apiHost": "localhost:8080",
+  "errorMessageDisplayTime": 7500
 }

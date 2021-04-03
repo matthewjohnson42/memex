@@ -1,4 +1,4 @@
-export class PageRequest {
+export class PageRequestDto {
     pageSize: number;
     pageNumber: number;
     sort: string;

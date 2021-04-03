@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ApiUrls} from '../../const/api-urls';
-import {Pageable} from '../../data/pageable';
-import {RawText} from '../../data/raw-text';
+import {PageableDto} from '../../dto/pageable-dto';
+import {RawTextDto} from '../../dto/raw-text-dto';
 import {HttpCommonService} from './http-common.service';
 import {Observable} from 'rxjs';
 import {PersistenceService} from '../data/persistence.service';
-import {RawTextSearchRequest} from '../../data/raw-text-search-request';
+import {RawTextSearchRequestDto} from '../../dto/raw-text-search-request-dto';
 import {map} from 'rxjs/operators';
-import {AuthResponse} from '../../data/auth-response';
-import {AuthRequest} from '../../data/auth-request';
-import {AppConfig} from "../../data/app-config";
+import {AuthResponseDto} from '../../dto/auth-response-dto';
+import {AuthRequestDto} from '../../dto/auth-request-dto';
+import {RawTextSearchResponseDto} from '../../dto/raw-text-search-response-dto';
 
 /**
  * Service for forming HTTP requests.
@@ -35,81 +35,93 @@ export class ApiService {
         this.persistenceService = persistenceService;
     }
 
-    authenticate(authRequest: AuthRequest): Observable<any> {
-        return this.httpClient.post<AuthResponse>(
+    authenticate(authRequest: AuthRequestDto): Observable<any> {
+        return this.httpClient.post<AuthResponseDto>(
             `${this.apiUrl}${ApiUrls.authUrl}`,
             authRequest,
-            {observe: 'body'}
+            {observe: 'response'}
         ).pipe(
-            map(responseBody => {
-                this.persistenceService.persistAuthToken(responseBody);
+            map(response => {
+                this.persistenceService.persistAuthToken(response.body).subscribe();
+                return response;
             })
         );
     }
 
     getRawText(id: string): Observable<any> {
-        return this.httpClient.get<RawText>(
+        return this.httpClient.get<RawTextDto>(
             `${this.apiUrl}${ApiUrls.rawTextUrl}/${id}`,
-            {observe: 'body'}
+            {observe: 'response'}
         ).pipe(
-            map(responseBody => {
-                this.persistenceService.persistRawTextResponse(responseBody);
+            map(response => {
+                this.persistenceService.persistRawTextResponse(response.body).subscribe();
+                return response;
             })
         );
     }
 
-    postRawText(rawText: RawText): Observable<any> {
-        return this.httpClient.post<RawText>(
+    postRawText(rawText: RawTextDto): Observable<any> {
+        return this.httpClient.post<RawTextDto>(
             `${this.apiUrl}${ApiUrls.rawTextUrl}`,
             rawText,
-            {observe: 'body'}
+            {observe: 'response'}
         ).pipe(
             map(response => {
-                // todo update to RxJS pipe
-                this.persistenceService.persistRawTextRequest(response).subscribe();
+                this.persistenceService.persistRawTextRequest(response.body).subscribe();
+                return response;
             })
         );
     }
 
-    putRawText(rawText: RawText): Observable<any> {
-        return this.httpClient.put<RawText>(
+    putRawText(rawText: RawTextDto): Observable<any> {
+        return this.httpClient.put<RawTextDto>(
             `${this.apiUrl}${ApiUrls.rawTextUrl}/${rawText.id}`,
             rawText,
-            {observe: 'body'}
+            {observe: 'response'}
         ).pipe(
             map(response => {
-                // todo update to RxJS pipe
-                this.persistenceService.persistRawTextRequest(response).subscribe();
+                this.persistenceService.persistRawTextRequest(response.body).subscribe();
+                return response;
             })
         );
     }
 
     getRawTextPage(pageSize: number, pageNumber: number): Observable<any> {
-        return this.httpCommonService.getPageParams(
-            pageSize,
-            pageNumber
+        return this.httpClient.get<PageableDto<RawTextDto>>(
+            `${this.apiUrl}${ApiUrls.rawTextUrl}`,
+            {
+                params: this.httpCommonService.getPageParams(
+                    pageSize,
+                    pageNumber
+                ), observe: 'response'
+            }
         ).pipe(
-            map(params => {
-                this.httpClient.get<Pageable<RawText>>(
-                    `${this.apiUrl}${ApiUrls.rawTextUrl}`,
-                    {params: params, observe: 'body'}
-                ).subscribe(
-                    responseBody => {
-                        this.persistenceService.persistRawTextPageResponse(responseBody);
-                    }
-                );
+            map(response => {
+                this.persistenceService.persistRawTextPageResponse(response.body).subscribe();
+                return response;
             })
         );
     }
 
-    search(rawTextSearchRequest: RawTextSearchRequest): Observable<any> {
-        return this.httpClient.post<Pageable<RawText>>(
+    search(rawTextSearchRequest: RawTextSearchRequestDto): Observable<any> {
+        return this.httpClient.post<PageableDto<RawTextSearchResponseDto>>(
             `${this.apiUrl}${ApiUrls.rawTextSearchUrl}`,
             rawTextSearchRequest,
-            {observe: 'body'}
+            {observe: 'response'}
         ).pipe(
             map(response => {
-                this.persistenceService.persistRawTextSearchResponse(response);
+                // todo find a way to move to the raw text service using observable pipe consolidation
+                const searchResponse = response.body;
+                for (let i = 0; i < searchResponse.content.length; i++) {
+                    const createDateTime = new Date(searchResponse.content[i].createDateTime);
+                    searchResponse.content[i].createDateTime = createDateTime.getFullYear() + '-'
+                        + createDateTime.getMonth() + '-' + createDateTime.getDay();
+                    const updateDateTime = new Date(searchResponse.content[i].updateDateTime);
+                    searchResponse.content[i].updateDateTime = updateDateTime.getFullYear() + '-'
+                        + updateDateTime.getMonth() + '-' + updateDateTime.getDay();
+                }
+                this.persistenceService.persistRawTextSearchResponse(searchResponse).subscribe();
+                return response;
             })
         );
     }

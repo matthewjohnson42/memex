@@ -11,12 +11,16 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SearchResultScreenComponent} from '../app/search-screen/search-result-screen/search-result-screen.component';
 import {AuthService} from '../service/auth.service';
 import {RawTextService} from '../service/data/raw-text.service';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {HttpCommonService} from '../service/http/http-common.service';
 import {LoginScreenComponent} from '../app/login-screen/login-screen.component';
 import {PersistenceService} from '../service/data/persistence.service';
 import {ApiService} from '../service/http/api.service';
-import {JWT_OPTIONS, JwtModule} from '@auth0/angular-jwt';
+import {JwtModule} from '@auth0/angular-jwt';
+import {AuthInterceptor} from '../service/http/auth-interceptor';
+import {Router} from '@angular/router';
+import {ResponseInterceptor} from '../service/http/response-interceptor';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 /**
  * Default app module; specifies the components used by the app, along with imported modules.
@@ -48,20 +52,7 @@ import {JWT_OPTIONS, JwtModule} from '@auth0/angular-jwt';
         BrowserModule,
         FormsModule,
         HttpClientModule,
-        JwtModule.forRoot({
-            jwtOptionsProvider: {
-                provide: JWT_OPTIONS,
-                useFactory: (persistenceService: PersistenceService) => {
-                    return {
-                        tokenGetter: () => {
-                            return persistenceService.loadAuthToken();
-                        },
-                        allowedDomains: [persistenceService.loadMemexAppConfig().apiHost]
-                    };
-                },
-                deps: [PersistenceService]
-            }
-        }),
+        JwtModule,
         MaterialModule,
         ReactiveFormsModule,
         AppRoutingModule
@@ -71,8 +62,21 @@ import {JWT_OPTIONS, JwtModule} from '@auth0/angular-jwt';
         ApiService,
         AuthService,
         HttpCommonService,
+        MatSnackBar,
         PersistenceService,
-        RawTextService
+        RawTextService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            multi: true,
+            useClass: AuthInterceptor,
+            deps: [HttpCommonService, PersistenceService, Router]
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            multi: true,
+            useClass: ResponseInterceptor,
+            deps: [HttpCommonService, PersistenceService]
+        }
     ],
     bootstrap: [AppComponent]
 })

@@ -1,12 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {PersistenceService} from '../../../service/data/persistence.service';
-import {RawText} from '../../../data/raw-text';
+import {RawTextDto} from '../../../dto/raw-text-dto';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {Pageable} from '../../../data/pageable';
+import {PageableDto} from '../../../dto/pageable-dto';
 import {Router} from '@angular/router';
 import {UiRoutes} from '../../../const/ui-routes';
 import {RawTextService} from '../../../service/data/raw-text.service';
+import {RawTextSearchResponseDto} from '../../../dto/raw-text-search-response-dto';
 
 /**
  * Displays search results and allows for a specified result to be loaded into PersistenceService
@@ -23,9 +24,9 @@ export class SearchResultScreenComponent implements OnInit {
     rawTextService: RawTextService;
     router: Router;
 
-    dataSource: MatTableDataSource<RawText> = new MatTableDataSource<RawText>();
+    dataSource: MatTableDataSource<RawTextSearchResponseDto> = new MatTableDataSource<RawTextSearchResponseDto>();
     displayedColumns: Array<string> = ['gloss', 'createDate', 'updateDate'];
-    page: Pageable<RawText>;
+    page: PageableDto<RawTextSearchResponseDto>;
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     constructor(persistenceService: PersistenceService, rawTextService: RawTextService, router: Router) {
@@ -46,12 +47,13 @@ export class SearchResultScreenComponent implements OnInit {
 
     updatePage(event: PageEvent): void {
         this.rawTextService.searchFromPrevious(event.pageIndex).subscribe(next => {
+            this.page = this.persistenceService.loadRawTextSearchResponse();
             this.dataSource.data = this.persistenceService.loadRawTextSearchResponse().content;
         });
     }
 
-    select(rawTextResponse: RawText) {
-        // todo update to RxJS pipe
+    select(rawTextResponse: RawTextDto): void {
+        // todo update to RxJS concatenation of observables
         this.persistenceService.persistRawTextSearchSelection(rawTextResponse).subscribe(next0 => {
             this.persistenceService.persistRawTextRequest(undefined).subscribe(next1 => {
                 this.router.navigateByUrl(UiRoutes.entry).then();

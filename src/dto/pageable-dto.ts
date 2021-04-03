@@ -1,4 +1,4 @@
-export class Pageable<T> {
+export class PageableDto<T> {
     content: Array<T>;
     totalElements: number;
     number: number;
