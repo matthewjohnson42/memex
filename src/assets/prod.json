@@ -1,6 +1,6 @@
 {
   "production": true,
   "apiProtocol": "http://",
-  "apiHost": "localhost:8080",
+  "apiHost": "personal-memex-service.matthewjohnson42.com",
   "errorMessageDisplayTime": 7500
 }
