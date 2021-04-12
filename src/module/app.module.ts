@@ -21,6 +21,7 @@ import {AuthInterceptor} from '../service/http/auth-interceptor';
 import {Router} from '@angular/router';
 import {ResponseInterceptor} from '../service/http/response-interceptor';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {CommonService} from "../service/common.service";
 
 /**
  * Default app module; specifies the components used by the app, along with imported modules.
@@ -61,6 +62,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
     providers: [
         ApiService,
         AuthService,
+        CommonService,
         HttpCommonService,
         MatSnackBar,
         PersistenceService,

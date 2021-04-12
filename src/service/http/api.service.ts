@@ -11,6 +11,7 @@ import {map} from 'rxjs/operators';
 import {AuthResponseDto} from '../../dto/auth-response-dto';
 import {AuthRequestDto} from '../../dto/auth-request-dto';
 import {RawTextSearchResponseDto} from '../../dto/raw-text-search-response-dto';
+import {CommonService} from "../common.service";
 
 /**
  * Service for forming HTTP requests.
@@ -22,14 +23,20 @@ import {RawTextSearchResponseDto} from '../../dto/raw-text-search-response-dto';
 })
 export class ApiService {
 
-    apiUrl: string;
+    commonService: CommonService;
     httpClient: HttpClient;
     httpCommonService: HttpCommonService;
     persistenceService: PersistenceService;
 
-    constructor(httpClient: HttpClient, httpCommonService: HttpCommonService, persistenceService: PersistenceService) {
+    apiUrl: string;
+
+    constructor(commonService: CommonService,
+                httpClient: HttpClient,
+                httpCommonService: HttpCommonService,
+                persistenceService: PersistenceService) {
         const config = persistenceService.loadMemexAppConfig();
         this.apiUrl = config.apiProtocol + config.apiHost;
+        this.commonService = commonService;
         this.httpClient = httpClient;
         this.httpCommonService = httpCommonService;
         this.persistenceService = persistenceService;
@@ -113,12 +120,8 @@ export class ApiService {
                 // todo find a way to move to the raw text service using observable pipe consolidation
                 const searchResponse = response.body;
                 for (let i = 0; i < searchResponse.content.length; i++) {
-                    const createDateTime = new Date(searchResponse.content[i].createDateTime);
-                    searchResponse.content[i].createDateTime = createDateTime.getFullYear() + '-'
-                        + createDateTime.getMonth() + '-' + createDateTime.getDay();
-                    const updateDateTime = new Date(searchResponse.content[i].updateDateTime);
-                    searchResponse.content[i].updateDateTime = updateDateTime.getFullYear() + '-'
-                        + updateDateTime.getMonth() + '-' + updateDateTime.getDay();
+                    searchResponse.content[i].createDateTime = this.commonService.parseDateString(searchResponse.content[i].createDateTime);
+                    searchResponse.content[i].updateDateTime = this.commonService.parseDateString(searchResponse.content[i].updateDateTime);
                 }
                 this.persistenceService.persistRawTextSearchResponse(searchResponse).subscribe();
                 return response;
