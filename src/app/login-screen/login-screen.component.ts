@@ -5,7 +5,7 @@ import {UiRoutes} from '../../const/ui-routes';
 import {PersistenceService} from '../../service/data/persistence.service';
 
 /**
- * The login screen, allowing for authentication with the personal-memex-service
+ * The login screen, allowing for authentication with the memex-service
  */
 @Component({
     selector: 'app-login-screen',

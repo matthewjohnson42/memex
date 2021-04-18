@@ -9,7 +9,7 @@ import {EntryScreenComponent} from './entry-screen/entry-screen.component';
  * Panes are:
  *  login-screen
  *  entry-screen for entering text documents, auto saved on a timer
- *  search-query-screen for querying the elastic search DB of personal-memex-server
+ *  search-query-screen for querying the elastic search DB of memex-server
  *  search-result-screen for displaying search results and loading them into the entry screen
  */
 @Component({
@@ -24,7 +24,7 @@ export class AppComponent implements AfterViewInit {
     activeComponent: any;
     @ViewChild(MainHeaderComponent) mainHeaderComponent: MainHeaderComponent;
     @ViewChild(RouterOutlet) routerOutlet: RouterOutlet;
-    title = 'personal-memex-ui';
+    title = 'memex-ui';
 
     constructor(router: Router) {
         this.router = router;

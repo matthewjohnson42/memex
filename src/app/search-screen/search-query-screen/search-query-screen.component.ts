@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {UiRoutes} from '../../../const/ui-routes';
 
 /**
- * Screen for specifying the content of a serach request made to personal-memex-service
+ * Screen for specifying the content of a serach request made to memex-service
  */
 @Component({
     selector: 'app-retrieval-screen',

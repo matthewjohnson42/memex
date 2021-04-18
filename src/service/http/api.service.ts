@@ -15,7 +15,7 @@ import {CommonService} from "../common.service";
 
 /**
  * Service for forming HTTP requests.
- * Requests are made to the personal-memex-service web API.
+ * Requests are made to the memex-service web API.
  * Responses are persisted with PersistenceService.
  */
 @Injectable({

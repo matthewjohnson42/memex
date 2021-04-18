@@ -11,20 +11,20 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$personal-memex-ui-primary: mat-palette($mat-teal);
-$personal-memex-ui-accent: mat-palette($mat-teal, A200, A100, A400);
+$memex-ui-primary: mat-palette($mat-teal);
+$memex-ui-accent: mat-palette($mat-teal, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$personal-memex-ui-warn: mat-palette($mat-red);
+$memex-ui-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$personal-memex-ui-theme: mat-light-theme(
-                $personal-memex-ui-primary,
-                $personal-memex-ui-accent,
-                $personal-memex-ui-warn
+$memex-ui-theme: mat-light-theme(
+                $memex-ui-primary,
+                $memex-ui-accent,
+                $memex-ui-warn
 );
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($personal-memex-ui-theme);
+@include angular-material-theme($memex-ui-theme);

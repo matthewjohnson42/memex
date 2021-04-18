@@ -8,7 +8,7 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 import {UiRoutes} from '../const/ui-routes';
 
 /**
- * Service for accessing authentication functionality on the personal-memex-service,
+ * Service for accessing authentication functionality on the memex-service,
  * and for referencing retrieved authentication information
  */
 @Injectable({
