@@ -3,6 +3,8 @@ import {AuthService} from '../../service/auth.service';
 import {Router} from '@angular/router';
 import {UiRoutes} from '../../const/ui-routes';
 import {PersistenceService} from '../../service/data/persistence.service';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {AuthRequestDto} from '../../dto/auth-request-dto';
 
 /**
  * The login screen, allowing for authentication with the memex-service
@@ -14,21 +16,18 @@ import {PersistenceService} from '../../service/data/persistence.service';
 })
 export class LoginScreenComponent {
 
-    authService: AuthService;
-    persistenceService: PersistenceService;
-    router: Router;
+    loginForm = this.formBuilder.group({
+        username: '',
+        password: ''
+    });
 
-    username: string;
-    password: string;
-
-    constructor(authService: AuthService, persistenceService: PersistenceService, router: Router) {
-        this.authService = authService;
-        this.persistenceService = persistenceService;
-        this.router = router;
-    }
+    constructor(private authService: AuthService,
+                private formBuilder: FormBuilder,
+                private persistenceService: PersistenceService,
+                private router: Router) { }
 
     login(): void {
-        this.authService.login(this.username, this.password).subscribe(next => {
+        this.authService.login(this.loginForm.value as AuthRequestDto).subscribe(next => {
             this.router.navigateByUrl(UiRoutes.entry).then();
         });
     }

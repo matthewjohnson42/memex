@@ -1,18 +1,17 @@
-<!-- todo: update to form -->
-<form class="password-entry-cluster">
+<form class="password-entry-cluster" [formGroup]="loginForm" (ngSubmit)="login()">
     <div class="horizontal-center">
         <mat-form-field>
             <mat-label>Username</mat-label>
-            <input matInput [(ngModel)]="username">
+            <input type="text" matInput formControlName="username">
         </mat-form-field>
     </div>
     <div class="horizontal-center">
         <mat-form-field>
             <mat-label>Password</mat-label>
-            <input type="password" matInput [(ngModel)]="password">
+            <input type="password" matInput formControlName="password">
         </mat-form-field>
     </div>
     <div class="horizontal-center login-button">
-        <button type="submit" mat-button color="primary" (click)="login()">Login</button>
+        <button type="submit" mat-button color="primary">Login</button>
     </div>
 </form>

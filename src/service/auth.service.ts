@@ -34,12 +34,9 @@ export class AuthService implements CanActivate {
         }
     }
 
-    login(username: string, password: string): Observable<any> {
-        const authRequest = {
-            username: username,
-            password: password
-        } as AuthRequestDto;
-        return this.apiService.authenticate(authRequest);
+    login(loginForm: AuthRequestDto): Observable<any> {
+        console.log(loginForm);
+        return this.apiService.authenticate(loginForm);
     }
 
 }
