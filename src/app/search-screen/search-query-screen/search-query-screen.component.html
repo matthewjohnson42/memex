@@ -1,16 +1,18 @@
-<div class="search-content-pane">
+<form class="search-content-pane" [formGroup]="searchForm" (ngSubmit)="search()">
     <div class="spacer-div"></div>
     <div class="horizontal-center">
         <div class="date-picker-cluster">
             <mat-form-field class="full-width">
                 <mat-label>Start date</mat-label>
-                <input matInput [matDatepicker]="startDate" (dateInput)="setStartDate($event)">
+<!--                <input matInput [matDatepicker]="startDate" (dateInput)="setStartDate($event)">-->
+                <input name="startDate" matInput [matDatepicker]="startDate" formControlName="startDate">
                 <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
                 <mat-datepicker #startDate></mat-datepicker>
             </mat-form-field>
             <mat-form-field class="full-width">
                 <mat-label>End date</mat-label>
-                <input matInput [matDatepicker]="endDate" (dateInput)="setEndDate($event)">
+<!--                <input matInput [matDatepicker]="endDate" (dateInput)="setEndDate($event)">-->
+                <input name="endDate" matInput [matDatepicker]="endDate" formControlName="endDate">
                 <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
                 <mat-datepicker #endDate></mat-datepicker>
             </mat-form-field>
@@ -20,10 +22,10 @@
     <div class="horizontal-center">
         <mat-form-field class="search-box">
             <mat-label>Search content</mat-label>
-            <input matInput [(ngModel)]="searchString">
+            <input type="text" name="searchString" matInput formControlName="searchString">
         </mat-form-field>
     </div>
     <div class="horizontal-center tall">
-        <button mat-button color="primary" (click)="search()" class="search-button">Search</button>
+        <button type="submit" class="search-button" mat-button color="primary">Search</button>
     </div>
-</div>
+</form>

@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {RawTextService} from '../../../service/data/raw-text.service';
 import {Router} from '@angular/router';
 import {UiRoutes} from '../../../const/ui-routes';
+import {FormBuilder} from '@angular/forms';
 
 /**
  * Screen for specifying the content of a serach request made to memex-service
@@ -13,30 +14,22 @@ import {UiRoutes} from '../../../const/ui-routes';
 })
 export class SearchQueryScreenComponent {
 
-    rawTextService: RawTextService;
-    router: Router;
+    searchForm = this.formBuilder.group({
+        endDate: '',
+        startDate: '',
+        searchString: ''
+    });
 
-    endDate: Date;
-    searchString: string;
-    startDate: Date;
-
-    constructor(rawTextService: RawTextService, router: Router) {
-        this.rawTextService = rawTextService;
-        this.router = router;
-    }
+    constructor(private formBuilder: FormBuilder,
+                private rawTextService: RawTextService,
+                private router: Router) { }
 
     search(): void {
-        this.rawTextService.search(this.searchString, this.startDate, this.endDate).subscribe(next => {
+        this.rawTextService.search(this.searchForm.value.searchString,
+                                   this.searchForm.value.startDate,
+                                   this.searchForm.value.endDate).subscribe(next => {
             this.router.navigateByUrl(UiRoutes.searchResult).then();
         });
-    }
-
-    setStartDate(startDate): void {
-        this.startDate = startDate.value;
-    }
-
-    setEndDate(endDate): void {
-        this.endDate = endDate.value;
     }
 
 }
