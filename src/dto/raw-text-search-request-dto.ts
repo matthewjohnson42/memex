@@ -3,12 +3,12 @@ export class RawTextSearchRequestDto {
     pageSize: number;
     pageNumber: number;
     startCreateDate: string;
-    endUpdateDate: string;
-    constructor(searchString: string, pageSize: number, pageNumber: number, startCreateDate: string, endUpdateDate: string) {
+    endCreateDate: string;
+    constructor(searchString: string, pageSize: number, pageNumber: number, startCreateDate: string, endCreateDate: string) {
         this.searchString = searchString;
         this.pageSize = pageSize;
         this.pageNumber = pageNumber;
         this.startCreateDate = startCreateDate;
-        this.endUpdateDate = endUpdateDate;
+        this.endCreateDate = endCreateDate;
     }
 }

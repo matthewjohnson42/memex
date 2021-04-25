@@ -48,7 +48,7 @@ export class RawTextService {
         const rawTextSearchRequest: RawTextSearchRequestDto = {
             searchString: searchString,
             startCreateDate: startDate instanceof Date ? startDate.toISOString() : null,
-            endUpdateDate: endDate instanceof Date ? endDate.toISOString() : null,
+            endCreateDate: endDate instanceof Date ? endDate.toISOString() : null,
             pageSize: pageSize ? pageSize : 10,
             pageNumber: pageNumber ? pageNumber : 0
         };

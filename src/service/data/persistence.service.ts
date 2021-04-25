@@ -191,7 +191,7 @@ export class PersistenceService {
             pageSize:           json.pageSize ? json.pageSize : undefined,
             pageNumber:         json.pageNumber ? json.pageNumber : undefined,
             startCreateDate:    json.startCreateDate ? json.startCreateDate : undefined,
-            endUpdateDate:      json.endUpdateDate ? json.endUpdateDate : undefined
+            endCreateDate:      json.endCreateDate ? json.endCreateDate : undefined
         } as RawTextSearchRequestDto;
     }
     private parseRawTextSearchResponsePage(json: any): PageableDto<RawTextSearchResponseDto> {
