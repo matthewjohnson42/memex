@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {PersistenceService} from '../../../service/data/persistence.service';
 import {RawTextDto} from '../../../dto/raw-text-dto';
 import {MatTableDataSource} from '@angular/material/table';
@@ -18,7 +18,7 @@ import {RawTextSearchResponseDto} from '../../../dto/raw-text-search-response-dt
     templateUrl: './search-result-screen.component.html',
     styleUrls: ['./search-result-screen.component.css']
 })
-export class SearchResultScreenComponent implements OnInit {
+export class SearchResultScreenComponent implements OnInit, OnDestroy {
 
     persistenceService: PersistenceService;
     rawTextService: RawTextService;
@@ -43,6 +43,13 @@ export class SearchResultScreenComponent implements OnInit {
         } else {
             this.router.navigateByUrl(UiRoutes.search).then();
         }
+    }
+
+    ngOnDestroy(): void {
+        // todo update to RxJS concatenation of observables
+        this.persistenceService.persistRawTextSearchResponse(undefined).subscribe(next2 => {
+            this.persistenceService.persistRawTextSearchRequest(undefined).subscribe(next3 => { });
+        });
     }
 
     updatePage(event: PageEvent): void {

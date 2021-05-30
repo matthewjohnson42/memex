@@ -157,7 +157,7 @@ export class PersistenceService {
         if ( rawTextSearchRequest ) {
             return of(localStorage.setItem(PersistenceService.rawTextSearchRequestName, JSON.stringify(rawTextSearchRequest)));
         } else {
-            return of(localStorage.remove(PersistenceService.rawTextSearchRequestName));
+            return of(localStorage.removeItem(PersistenceService.rawTextSearchRequestName));
         }
     }
 
