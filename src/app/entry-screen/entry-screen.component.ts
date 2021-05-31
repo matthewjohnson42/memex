@@ -31,10 +31,10 @@ export class EntryScreenComponent implements OnInit, OnDestroy {
         // todo update search selection to be passed via router/url path rather than application memory
         const searchSelection: RawTextDto = this.persistenceService.loadRawTextSearchSelection();
         const rawTextRequest: RawTextDto = this.persistenceService.loadRawTextRequest();
-        if ( searchSelection && ! rawTextRequest ) { // state set by search-result-screen
+        if ( searchSelection && ! rawTextRequest ) { // load value set by search-result-screen
             this.id = searchSelection.id;
             this.textAreaValue = searchSelection.textContent;
-        } else if ( rawTextRequest ) { // any request that had been previously persisted
+        } else if ( rawTextRequest ) { // load any request that had been previously persisted
             this.id = rawTextRequest.id;
             this.textAreaValue = rawTextRequest.textContent;
         }
