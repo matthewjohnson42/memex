@@ -1,0 +1,11 @@
+db:
+  mongo:
+    host: ${MONGO_HOST:localhost}
+    port: ${MONGO_PORT:27017}
+  elasticsearch:
+    hostname: ${ELASTICSEARCH_HOST:localhost}
+    port: ${ELASTICSEARCH_PORT:9200}
+
+server.port: 8088
+
+logging.level.org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
