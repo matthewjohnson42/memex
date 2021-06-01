@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.github.matthewjohnson42</groupId>
         <artifactId>memex-data-service</artifactId>
-        <version>0.0.1</version>
+        <version>1.0.0</version>
     </parent>
     <artifactId>memex-data-service-docker</artifactId>
 </project>
