@@ -21,4 +21,9 @@ public class DataTransferController {
         dataTransferService.transferRawTextToES();
     }
 
+    @RequestMapping(method = RequestMethod.POST, path="/rawText/mongoToDrive")
+    public void transferRawTextMongoToGoogleDrive() {
+        dataTransferService.transferRawTextToGoogleDrive();
+    }
+
 }

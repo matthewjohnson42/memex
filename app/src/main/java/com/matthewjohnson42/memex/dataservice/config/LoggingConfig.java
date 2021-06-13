@@ -1,4 +1,4 @@
-package com.matthewjohnson42.memex.service.config;
+package com.matthewjohnson42.memex.dataservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

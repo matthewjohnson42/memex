@@ -1,5 +1,6 @@
 package com.matthewjohnson42.memex.dataservice.logic.service;
 
+import com.google.api.services.drive.Drive;
 import com.matthewjohnson42.memex.data.converter.RawTextESConverter;
 import com.matthewjohnson42.memex.data.converter.RawTextMongoConverter;
 import com.matthewjohnson42.memex.data.dto.RawTextDto;
@@ -8,6 +9,7 @@ import com.matthewjohnson42.memex.data.entity.mongo.RawTextMongo;
 import com.matthewjohnson42.memex.data.repository.elasticsearch.RawTextESRestTemplate;
 import com.matthewjohnson42.memex.data.repository.mongo.RawTextMongoRepo;
 import com.matthewjohnson42.memex.dataservice.logic.thread.MongoToESTransferRunner;
+import com.matthewjohnson42.memex.dataservice.logic.thread.MongoToGoogleDriveTransferRunner;
 import com.matthewjohnson42.memex.dataservice.logic.thread.ThreadPool;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -39,6 +41,14 @@ public class DataTransferService implements ApplicationContextAware {
                 applicationContext.getBean(RawTextESRestTemplate.class),
                 applicationContext.getBean(RawTextESConverter.class),
                 1000
+        ));
+    }
+
+    public void transferRawTextToGoogleDrive() {
+        threadPool.execute(new MongoToGoogleDriveTransferRunner<String, RawTextDto, RawTextMongo>(
+                applicationContext.getBean(RawTextMongoRepo.class),
+                applicationContext.getBean(RawTextMongoConverter.class),
+                applicationContext.getBean(Drive.class)
         ));
     }
 
