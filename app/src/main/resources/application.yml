@@ -1,3 +1,5 @@
+spring.profiles.include: enablemongorepositories,enableelasticrepositories
+
 db:
   mongo:
     host: ${MONGO_HOST:localhost}
@@ -8,8 +10,8 @@ db:
 
 google:
   cloud:
-    serviceAccountId: ${GOOGLE_DRIVE_SERVICE_ACCOUNT_ID}
-    serviceAccountKeyFile: ${GOOGLE_DRIVE_SERVICE_ACCOUNT_KEY_FILE}
+    serviceAccountId: ${GOOGLE_DRIVE_SERVICE_ACCOUNT_ID:blank}
+    serviceAccountKeyFile: ${GOOGLE_DRIVE_SERVICE_ACCOUNT_KEY_FILE:blank}
 
 server.port: 8088
 

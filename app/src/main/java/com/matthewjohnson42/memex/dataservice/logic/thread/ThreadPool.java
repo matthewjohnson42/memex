@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
@@ -20,23 +19,25 @@ public class ThreadPool {
     private final ThreadPoolExecutor threadPoolExecutor;
 
     public ThreadPool() {
-        ThreadGroup tg = Thread.currentThread().getThreadGroup();
-        while (tg.getParent() != null) {
-            tg = tg.getParent();
+        ThreadGroup rootThreadGroup = Thread.currentThread().getThreadGroup();
+        while (rootThreadGroup.getParent() != null) {
+            rootThreadGroup = rootThreadGroup.getParent();
         }
+        ThreadGroup threadGroup = new ThreadGroup(rootThreadGroup, "memexDataServiceThreadGroup");
         threadPoolExecutor = new ThreadPoolExecutor(
                 5, 5, 60 * 60 * 1000, TimeUnit.MILLISECONDS,
-                new SynchronousQueue<>(), new ThreadFactoryImpl(tg));
+                new SynchronousQueue<>(), new ThreadFactoryImpl(threadGroup));
     }
 
     public void execute(MemexDataServiceRunnable runnable) {
+        logger.info("Executing runnable with id: {}", runnable.hashCode());
         threadPoolExecutor.execute(runnable);
     }
 
-    public List<String> getRunnableStatuses() {
-        List<String> runnableStatuses = new ArrayList<>();
+    public List<MemexDataServiceRunnable> getRunnables() {
+        logger.info("Retrieving runnables");
         return threadPoolExecutor.getQueue().stream().map(
-                runnable -> ((MemexDataServiceRunnable) runnable).getStatusString()
+                runnable -> (MemexDataServiceRunnable) runnable
         ).collect(Collectors.toList());
     }
 

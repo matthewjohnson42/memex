@@ -1,23 +1,26 @@
 package com.matthewjohnson42.memex.dataservice.web.controller;
 
-import com.matthewjohnson42.memex.dataservice.data.RunnableStatusList;
-import com.matthewjohnson42.memex.dataservice.logic.service.ThreadService;
+import com.matthewjohnson42.memex.dataservice.data.dto.ThreadDto;
+import com.matthewjohnson42.memex.dataservice.data.mongo.service.ThreadMongoService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path="/api/v0/threads")
 public class ThreadController {
 
-    private final ThreadService threadService;
+    private final ThreadMongoService threadService;
 
-    public ThreadController(ThreadService threadService) {
+    public ThreadController(ThreadMongoService threadService) {
         this.threadService = threadService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public RunnableStatusList getRunnableStatusList() {
-        return threadService.getRunnableStatusList();
+    public List<ThreadDto> getRunningThreads() {
+        return threadService.getRunningThreads();
     }
+
 }
