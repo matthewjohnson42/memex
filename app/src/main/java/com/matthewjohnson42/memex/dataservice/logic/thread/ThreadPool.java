@@ -4,12 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Component
 public class ThreadPool {
@@ -32,13 +30,6 @@ public class ThreadPool {
     public void execute(MemexDataServiceRunnable runnable) {
         logger.info("Executing runnable with id: {}", runnable.hashCode());
         threadPoolExecutor.execute(runnable);
-    }
-
-    public List<MemexDataServiceRunnable> getRunnables() {
-        logger.info("Retrieving runnables");
-        return threadPoolExecutor.getQueue().stream().map(
-                runnable -> (MemexDataServiceRunnable) runnable
-        ).collect(Collectors.toList());
     }
 
     private final class ThreadFactoryImpl implements ThreadFactory {
