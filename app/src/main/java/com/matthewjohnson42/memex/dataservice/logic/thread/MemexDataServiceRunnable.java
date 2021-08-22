@@ -31,7 +31,9 @@ public abstract class MemexDataServiceRunnable implements Runnable {
 
     protected abstract boolean executeBatch();
 
-    protected abstract void updateRun();
+    protected void updateRun() {
+        threadMongoService.updateThreadEntity(hashCode(), batchesProcessed, ThreadStatus.RUNNING);
+    }
 
     protected void cleanupRun() {
         threadMongoService.updateThreadEntity(hashCode(), batchesProcessed, ThreadStatus.COMPLETE);

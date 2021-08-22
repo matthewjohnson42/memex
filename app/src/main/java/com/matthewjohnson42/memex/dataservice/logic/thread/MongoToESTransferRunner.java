@@ -73,10 +73,6 @@ public class MongoToESTransferRunner<ID, D extends DtoForEntity<ID>, M extends E
         return batchesProcessed >= (totalCount / batchSize) + 1;
     }
 
-    public void updateRun() {
-        threadMongoService.updateThreadEntity(hashCode(), batchesProcessed, ThreadStatus.RUNNING);
-    }
-
     public int getTotalCount() {
         return totalCount;
     }

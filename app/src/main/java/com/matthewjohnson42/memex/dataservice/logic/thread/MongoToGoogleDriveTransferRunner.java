@@ -33,18 +33,30 @@ public class MongoToGoogleDriveTransferRunner<ID, D extends DtoForEntity<ID>, E 
         this.totalCount = (int) mongoRepository.count();
     }
 
+    @Override
+    protected void setupRun() {
+        super.setupRun();
+        // iteratively copy all rawText using pageable, write to temp file
+            // update ThreadMongo to include attribute "description", include temp file name in description
+        // get total bytes in file
+        // set batch number to batches of 1 MB
+        // create file on Google Drive
+    }
+
     public boolean executeBatch() {
-        try {
-            logger.info(drive.about().get().setFields("*").execute().toString());
-            logger.info(drive.files().list().execute().getFiles().toString());
-        } catch (Exception e) {
-            logger.error("Error when accessing Drive info", e);
-        }
-        return true;
+        // confirm previous batch was successful; if not, re-run batch
+        // retrieve bytes from file, send HTTP request with bytes as content
+        return false;
     }
 
     public void updateRun() {
-        threadMongoService.updateThreadEntity(hashCode(), 0, ThreadStatus.RUNNING);
+        threadMongoService.updateThreadEntity(hashCode(), batchesProcessed, ThreadStatus.RUNNING);
+        batchesProcessed = batchesProcessed + 1;
+    }
+
+    @Override
+    protected void cleanupRun() {
+        // delete file from disk
     }
 
     public int getTotalCount() {

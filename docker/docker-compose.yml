@@ -1,0 +1,23 @@
+# docker compose file for starting a container built from the docker image itself built from the "app" module of this project
+version: '3.8'
+services:
+  memex-data-service:
+    image: memex-data-service:1.0.0
+    container_name: memex-data-service
+    environment:
+      - MONGO_HOST=memex-mongo01
+      - MONGO_PORT=27017
+      - ELASTICSEARCH_HOST=memex-es01
+      - ELASTICSEARCH_PORT=9200
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - GOOGLE_DRIVE_SERVICE_ACCOUNT_ID=${GOOGLE_DRIVE_SERVICE_ACCOUNT_ID}
+      - GOOGLE_DRIVE_SERVICE_ACCOUNT_KEY_FILE=${GOOGLE_DRIVE_SERVICE_ACCOUNT_KEY_FILE}
+    ports:
+      - 8088:8088
+    networks:
+      - memex-backend
+
+networks:
+  memex-backend:
+    name: memex-backend
+    driver: bridge

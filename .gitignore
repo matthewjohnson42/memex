@@ -13,3 +13,6 @@ buildNumber.properties
 *iml
 app/target/*
 docker/target/*
+docker/docker-delete.sh
+google-drive-service-account-key.p12
+

@@ -46,7 +46,7 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <finalName>memex-data-service-${project.version}</finalName>
+                            <finalName>memex-data-service-with-sources-${project.version}</finalName>
                             <!-- reference: https://stackoverflow.com/questions/33687492 -->
                             <transformers>
                                 <transformer
