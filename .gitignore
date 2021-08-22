@@ -45,3 +45,6 @@ Workingnotes.md
 # System Files
 .DS_Store
 Thumbs.db
+
+# memex files
+docker/docker-delete.sh
