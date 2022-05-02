@@ -63,7 +63,7 @@ public class MongoToGoogleDriveTransferRunner<ID, D extends DtoForEntity<ID>, E 
             Pageable pageable = PageRequest.of(i, pageSize, Sort.Direction.ASC, "createDateTime");
             Page<E> page = mongoRepository.findAll(pageable);
             for(E entity: page.getContent()) {
-                writer.println(entity.toString()); // todo need to add JSON generation
+                writer.println(entity.toString()); // todo need to add JSON generation, confirm JSON can be read in by Mongo
             }
             logger.info("Wrote page {} of {}", i + 1, pagesToWrite + 1);
         }

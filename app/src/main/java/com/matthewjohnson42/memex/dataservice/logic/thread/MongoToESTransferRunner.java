@@ -4,7 +4,6 @@ import com.matthewjohnson42.memex.data.converter.DtoEntityConverter;
 import com.matthewjohnson42.memex.data.dto.DtoForEntity;
 import com.matthewjohnson42.memex.data.entity.Entity;
 import com.matthewjohnson42.memex.data.repository.elasticsearch.ElasticRestTemplate;
-import com.matthewjohnson42.memex.dataservice.data.enumeration.ThreadStatus;
 import com.matthewjohnson42.memex.dataservice.data.mongo.service.ThreadMongoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
