@@ -28,7 +28,7 @@ export class LoginScreenComponent {
 
     login(): void {
         this.authService.login(this.loginForm.value as AuthRequestDto).subscribe(next => {
-            this.router.navigateByUrl(UiRoutes.entry).then();
+            this.router.navigateByUrl(UiRoutes.search).then();
         });
     }
 
