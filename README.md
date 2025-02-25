@@ -4,7 +4,7 @@ An Angular application that implements a UI for submitting and retrieving entrie
 
 The purpose of the application is to store notes with tags so that those notes may be later referenced across months and years.
 
-The application is not currently in use. I have shifted use to Evernote.
+The application is not currently in use. I have shifted to use of a purchased product.
 
 The application interacts with [memex-service](https://github.com/matthewjohnson42/memex-service) as its backend.
 
