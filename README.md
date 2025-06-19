@@ -8,5 +8,5 @@ The purpose of the application was to store notes with tags so that those notes 
 
 The application interacts with [memex-service](https://github.com/matthewjohnson42/memex-service) as its backend.
 
-The application build process for the application is broken given changes to dependencies.
+The build process for the application is broken given changes to dependencies.
 
