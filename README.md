@@ -2,7 +2,7 @@
 
 An Angular application that implements a UI for submitting and retrieving entries from a knowledge base, named for the [Memex](https://en.wikipedia.org/wiki/Memex) described in a 1945 Atlantic article.
 
-The purpose of the application was to store notes with tags so that those notes may be later referenced across months and years.
+The purpose of the application was to store notes with tags so that those notes could later be referenced across months and years.
 
 ### The application is not currently in use, and this repository is archived.
 
