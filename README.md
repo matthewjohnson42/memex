@@ -8,6 +8,5 @@ The purpose of the application was to store notes with tags so that those notes 
 
 The application interacts with [memex-service](https://github.com/matthewjohnson42/memex-service) as its backend.
 
-To run the Angular application, see the [docker/README.md](https://github.com/matthewjohnson42/memex-ui/blob/master/docker/README.md).
-
+The application build process is currently broken by dependency changes.
 
