@@ -25,9 +25,12 @@ export class SearchQueryScreenComponent {
                 private router: Router) { }
 
     search(): void {
-        this.rawTextService.search(this.searchForm.value.searchString,
-                                   this.searchForm.value.startDate,
-                                   this.searchForm.value.endDate).subscribe(next => {
+        const startDate = this.searchForm.value.startDate ? new Date(this.searchForm.value.startDate) : undefined;
+        const endDate = this.searchForm.value.endDate ? new Date(this.searchForm.value.endDate) : undefined;
+        
+        this.rawTextService.search(this.searchForm.value.searchString || '',
+                                   startDate,
+                                   endDate).subscribe(next => {
             this.router.navigateByUrl(UiRoutes.searchResult).then();
         });
     }

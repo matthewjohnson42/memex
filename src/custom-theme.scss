@@ -1,30 +1,34 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core();
+@include mat.core();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$memex-ui-primary: mat-palette($mat-teal);
-$memex-ui-accent: mat-palette($mat-teal, A200, A100, A400);
+$memex-ui-primary: mat.m2-define-palette(mat.$m2-teal-palette);
+$memex-ui-accent: mat.m2-define-palette(mat.$m2-teal-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$memex-ui-warn: mat-palette($mat-red);
+$memex-ui-warn: mat.m2-define-palette(mat.$m2-red-palette);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$memex-ui-theme: mat-light-theme(
-                $memex-ui-primary,
-                $memex-ui-accent,
-                $memex-ui-warn
-);
+$memex-ui-theme: mat.m2-define-light-theme((
+  color: (
+    primary: $memex-ui-primary,
+    accent: $memex-ui-accent,
+    warn: $memex-ui-warn,
+  ),
+  typography: mat.m2-define-typography-config(),
+  density: 0,
+));
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($memex-ui-theme);
+@include mat.all-component-themes($memex-ui-theme);
