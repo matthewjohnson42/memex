@@ -42,6 +42,7 @@ yarn-error.log
 testem.log
 /typings
 Workingnotes.md
+.angular
 
 # System Files
 .DS_Store
