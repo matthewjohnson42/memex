@@ -5,15 +5,15 @@ A mono repo containing the constituent components of a software system that prov
 The repository contains the following system components:
 
 
-memex-service
+- memex-service
 
-memex-ui
+- memex-ui
 
-memex-spring-data
+- memex-spring-data
 
-memex-data-service
+- memex-data-service
 
-memex-spring-parent
+- memex-spring-parent
 
 
 Each of the components have their own README.
