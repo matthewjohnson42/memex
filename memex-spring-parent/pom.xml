@@ -1,0 +1,68 @@
+<project>
+
+    <!-- maven project configurations -->
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.github.matthewjohnson42</groupId>
+    <artifactId>memex-spring-parent</artifactId>
+    <version>1.0.5</version>
+    <name>Memex Parent POM</name>
+    <packaging>pom</packaging>
+    <properties>
+        <java.version>11</java.version>
+        <!-- details regarding relation between spring version and others can be found on spring-boot-starter-parent -->
+        <!-- ref: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-parent -->
+        <spring.boot.version>2.5.0</spring.boot.version>
+        <spring.data.mongodb.version>3.2.1</spring.data.mongodb.version>
+        <mongodb.driversync.version>4.2.3</mongodb.driversync.version>
+    </properties>
+
+    <!-- maven remote repo configurations -->
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-mongodb</artifactId>
+            <version>${spring.data.mongodb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-sync</artifactId>
+            <version>${mongodb.driversync.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>
