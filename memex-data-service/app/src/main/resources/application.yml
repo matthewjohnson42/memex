@@ -1,0 +1,18 @@
+spring.profiles.include: enablemongorepositories,enableelasticrepositories
+
+db:
+  mongo:
+    host: ${MONGO_HOST:localhost}
+    port: ${MONGO_PORT:27017}
+  elasticsearch:
+    hostname: ${ELASTICSEARCH_HOST:localhost}
+    port: ${ELASTICSEARCH_PORT:9200}
+
+google:
+  cloud:
+    serviceAccountId: ${GOOGLE_DRIVE_SERVICE_ACCOUNT_ID:blank}
+    serviceAccountKeyFile: ${GOOGLE_DRIVE_SERVICE_ACCOUNT_KEY_FILE:blank}
+
+server.port: 8088
+
+logging.level.org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
