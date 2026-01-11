@@ -1,0 +1,7 @@
+version: "3.8"
+services:
+  memex-ui:
+    image: memex-ui:0.0.1
+    container_name: memex-ui
+    ports:
+      - "4200:80"
