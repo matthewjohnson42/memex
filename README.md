@@ -18,4 +18,4 @@ The repository contains the following system components:
 
 Each of the components have their own README.
 
-The system is not current in use.
+The system is not currently in use.
