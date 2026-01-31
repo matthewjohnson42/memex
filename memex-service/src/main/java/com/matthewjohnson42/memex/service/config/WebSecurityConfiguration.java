@@ -3,6 +3,7 @@ package com.matthewjohnson42.memex.service.config;
 import com.matthewjohnson42.memex.service.web.CustomJwtGrantedAuthoritiesConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -18,32 +19,52 @@ import java.util.List;
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private List<String> allowedOrigins = new ArrayList<>();
+    private List<String> activeProfiles = new ArrayList<>();
 
     private final CustomJwtGrantedAuthoritiesConverter customJwtGrantedAuthConverter;
 
     public WebSecurityConfiguration(
             CustomJwtGrantedAuthoritiesConverter customJwtGrantedAuthConverter,
-            @Value("${cors.allowed-origins}") String allowedOriginsFromYml) {
+            @Value("${cors.allowed-origins}") String allowedOriginsFromYml,
+            @Value("${spring.profiles.active}") String activeProfilesFromContext) {
         this.customJwtGrantedAuthConverter = customJwtGrantedAuthConverter;
         List<String> allowedOriginList = List.of(allowedOriginsFromYml.split(","));
         for (String origin: allowedOriginList) {
             allowedOrigins.add(origin.trim());
         }
+        List<String> activeProfilesList = List.of(activeProfilesFromContext.split(","));
+        for (String profile: activeProfilesList) {
+            activeProfiles.add(profile.trim());
+        }
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .authorizeRequests()
-                .antMatchers("/api/v0/auth").permitAll()
-                .antMatchers("/**").authenticated()
-                .and().csrf().ignoringAntMatchers("/api/v0/auth")
-                .and().cors().configurationSource(
-                    urlBasedCorsConfigurationSource()
-                )
-                .and().oauth2ResourceServer().jwt(
-                    jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter())
-                );
+        if (activeProfiles.contains("dev")) {
+            httpSecurity
+                    .authorizeRequests()
+                    .antMatchers("/api/v0/auth/**").permitAll()
+                    .antMatchers("/**").authenticated()
+                    .and().csrf().ignoringAntMatchers("/api/v0/auth/**")
+                    .and().cors().configurationSource(
+                            urlBasedCorsConfigurationSource()
+                    )
+                    .and().oauth2ResourceServer().jwt(
+                            jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter())
+                    );
+        } else {
+            httpSecurity
+                    .authorizeRequests()
+                    .antMatchers("/api/v0/auth").permitAll()
+                    .antMatchers("/**").authenticated()
+                    .and().csrf().ignoringAntMatchers("/api/v0/auth")
+                    .and().cors().configurationSource(
+                            urlBasedCorsConfigurationSource()
+                    )
+                    .and().oauth2ResourceServer().jwt(
+                            jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter())
+                    );
+        }
     }
 
     JwtAuthenticationConverter jwtAuthenticationConverter() {

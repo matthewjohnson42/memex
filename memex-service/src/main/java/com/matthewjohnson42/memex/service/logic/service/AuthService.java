@@ -2,6 +2,7 @@ package com.matthewjohnson42.memex.service.logic.service;
 
 import com.matthewjohnson42.memex.service.data.dto.AuthRequestDto;
 import com.matthewjohnson42.memex.service.data.dto.AuthResponseDto;
+import com.matthewjohnson42.memex.service.data.dto.EncryptedPasswordRequestDto;
 import com.matthewjohnson42.memex.service.data.dto.UserDetailsDto;
 import com.matthewjohnson42.memex.service.data.mongo.service.UserDetailsMongoService;
 import com.nimbusds.jose.JOSEException;
@@ -77,6 +78,10 @@ public class AuthService {
         SignedJWT signedJWT = new SignedJWT(jwsHeader, claims);
         signedJWT.sign(macSigner);
         return signedJWT;
+    }
+
+    public String getEncryptedPassword(EncryptedPasswordRequestDto dto) {
+        return passwordEncoder.encode(dto.getPassword());
     }
 
 }

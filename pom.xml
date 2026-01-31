@@ -2,11 +2,12 @@
 
     <!-- maven project configurations -->
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.github.matthewjohnson42</groupId>
-    <artifactId>memex-spring-parent</artifactId>
-    <version>1.0.5</version>
+    <groupId>com.matthewjohnson42</groupId>
+    <artifactId>memex-parent</artifactId>
+    <version>2.0.0</version>
     <name>Memex Parent POM</name>
     <packaging>pom</packaging>
+
     <properties>
         <java.version>11</java.version>
         <!-- details regarding relation between spring version and others can be found on spring-boot-starter-parent -->
@@ -15,6 +16,12 @@
         <spring.data.mongodb.version>3.2.1</spring.data.mongodb.version>
         <mongodb.driversync.version>4.2.3</mongodb.driversync.version>
     </properties>
+
+    <modules>
+        <module>memex-spring-data</module>
+        <module>memex-service</module>
+        <module>memex-data-service</module>
+    </modules>
 
     <!-- maven remote repo configurations -->
     <repositories>
@@ -26,10 +33,6 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
         </repository>
     </repositories>
     <pluginRepositories>
@@ -46,6 +49,16 @@
             </releases>
         </pluginRepository>
     </pluginRepositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.matthewjohnson42</groupId>
+                <artifactId>memex-spring-data</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -64,5 +77,19 @@
             <version>${mongodb.driversync.version}</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
