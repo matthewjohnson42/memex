@@ -21,7 +21,11 @@ The repository also contains the following library:
 The system is not currently in use, but had previously been deployed to AWS on a Kubernetes single node cluster, which was initialized by the configurations and scripts in the [matthewjohnson42/kubernetes-standalone](https://github.com/matthewjohnson42/kubernetes-standalone) repository.
 
 
-To use the system locally, ensure that Docker is installed, then:
+To use the system locally:
+ - Install system level dependencies
+   - Java 11 with JAVA_HOME set
+   - Docker daemon (any version)
+   - npm version 10 (packaged with Node version 22)
  - Start the memex-service
    - Open a CLI and change directory to memex-service/docker, then run the [memex-service/docker/docker-compose-up.sh](memex-service/docker/docker-compose-up.sh) script.
    - Provide responses to the input prompts as follows:

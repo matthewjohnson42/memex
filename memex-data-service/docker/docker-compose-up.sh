@@ -23,7 +23,7 @@ export GOOGLE_DRIVE_SERVICE_ACCOUNT_KEY_FILE=/memex-data-service/google-drive-se
 cp ${GOOGLE_DRIVE_P12_KEY_FILEPATH} ../google-drive-service-account-key.p12
 
 # build
-mvn clean install -f ../../pom.xml
+../../mvnw clean install -f ../../pom.xml
 docker build --tag memex-data-service:1.0.0 --file Dockerfile ..
 
 rm ../google-drive-service-account-key.p12

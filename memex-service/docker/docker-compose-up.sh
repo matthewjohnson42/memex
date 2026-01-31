@@ -35,7 +35,7 @@ if [[ -z ${SPRING_PROFILES_ACTIVE} ]]; then
 fi
 
 # build
-mvn clean install -f ../../pom.xml
+../../mvnw clean install -f ../../pom.xml
 docker build --tag memex-service:1.0.0 --file app/Dockerfile ..
 
 # start containers
