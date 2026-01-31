@@ -26,11 +26,12 @@ To use the system locally:
    - Java 11 with JAVA_HOME set
    - Docker daemon (any version)
    - npm version 10 (packaged with Node version 22)
+   - Mongo DB client, version 4+
  - Start the memex-service
    - Open a CLI and change directory to memex-service/docker, then run the [memex-service/docker/docker-compose-up.sh](memex-service/docker/docker-compose-up.sh) script.
    - Provide responses to the input prompts as follows:
      - Username and password: any value, but will be needed later
-     - Encryption secrets:    any value, including 0 character strings
+     - Encryption secrets: any value, including 0 character strings
      - Spring active profile: 'dev', without quotes
  - Start the memex-ui
    - Open a CLI and change directory to memex-ui/docker, then run the [memex-ui/docker/docker-compose-up.sh](memex-ui/docker/docker-compose-up.sh) script.
